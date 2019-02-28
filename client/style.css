@@ -1,0 +1,159 @@
+html{
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 14px;
+	background-color: #ffffff
+}
+
+h1{
+	font-size: 32px;
+}
+header{
+	margin-top: 16px;
+	margin-bottom: 32px;
+}
+body {
+	width: 800px;
+	left:0;
+	right:0;
+	bottom:0px;
+	background-color: #e6f2ff;
+	box-shadow: 10px 10px grey;
+}
+
+ul{
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	background-color: #333;
+}
+
+.about {
+	float:right;
+}
+
+li {
+	float:left;
+}
+
+.selected{
+	color: white;
+	font-weight:bold;
+}
+
+
+li a {
+	display: block;
+	color: white;
+	text-align: centre;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:link{
+	text-decoration: none;
+	color: white;
+}
+
+li a:hover {
+	background-color: #111;
+	text-decoration: none;
+	color: white;
+}
+
+.italic {
+	font-style: italic;
+	font-style: inline;
+}
+
+iframe{
+	width: 512px;
+	height: 384px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.body{
+	margin:auto;
+	margin-top: 16px;
+	margin-bottom: 16px;
+    width: 50%;
+	padding-right:86px;
+	padding-left:86px;
+	padding-top: 16px;
+	text-indent:0;
+	padding-bottom: 16px;
+}
+
+strong{
+	font-style: bold;
+}
+
+.auth{
+	font-size: 10px;
+}
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+hr{
+	display: block;
+	height: 3px;
+	color: #cce6ff;
+	padding-top: 2px;
+}
+
+.caption{
+	padding-top: 4px;
+	font-size:18px;
+}
+
+.bottom {
+	padding: 8px;
+	padding-bottom: 16px;
+}
+
+.label {
+	padding-left: 8px;
+	padding-bottom:8px;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.para {
+	padding-left: 8px;
+	padding-bottom: 0px;
+	padding-top:16px;
+	font-style: italic;
+}
+
+button {
+  background-color: #cccccc;
+  border: none;
+  color: black;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+textarea {
+	width: 600px;
+	height: 120px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
