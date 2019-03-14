@@ -1,0 +1,23 @@
+{
+  "name": "js-summative",
+  "version": "1.0.0",
+  "description": "'single page' app with a node-js server to request and send data.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sacktock/node-js-summative.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sacktock/node-js-summative/issues"
+  },
+  "homepage": "https://github.com/sacktock/node-js-summative#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

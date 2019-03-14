@@ -1,6 +1,6 @@
 //required for express requests
-var express = require('express')
-var app = express()
+var express = require('express');
+var app = express();
 //required for POST requests
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -114,7 +114,7 @@ app.post('/new', function(req,resp){
 })
 /////////////////////////////////
 
-let list = [ 'piano', 'concertina', 'double bass'];
+var list = ['piano', 'concertina', 'double bass'];
 
 // GET method with list
 app.get('/list', function(req, resp){
