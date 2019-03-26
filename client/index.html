@@ -8,77 +8,190 @@ rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iu
 crossorigin="anonymous">
 
 <link rel="stylesheet" type="text/css" href="style.css">
-
-<title>The Impact of Computing on Society</title>
-
+<title>Film Review</title>
+<script src="script.js"></script>
+<script src="index.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.w3-sidebar a {font-family: "Roboto", sans-serif}
+body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+</style>
 </head>
-<!-- <body> should start here -->
-<header>
-	<h1> The Impact of Computing on Society </h1>
+<body class="w3-content" style="max-width:1980px">
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+  <div class="w3-container w3-display-container w3-padding-16">
+    <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+    <h3 class="w3-wide"><b>FILM REVIEW</b></h3>
+  </div>
+  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+    <a class="w3-bar-item w3-button" id="trending">Trending</a>
+    <a class="w3-bar-item w3-button" id="actors">Actors</a>
+	
+    <a  class="w3-button w3-block w3-white w3-left-align" id="genres">
+      Genres <i class="fa fa-caret-right"></i>
+    </a>
+    <div id="genreAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium"></div>
+  <a  class="w3-button w3-block w3-white w3-left-align" id="discover">
+      Discover <i class="fa fa-caret-right"></i>
+    </a>
+	<div id="disAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+      <a id = "top_rated" class="w3-bar-item w3-button">Top Rated</a>
+      <a id = "popular" class="w3-bar-item w3-button">Popular</a>
+	  <a id = "latest" class="w3-bar-item w3-button">Latest</a>
+	  <a id = "now_playing" class="w3-bar-item w3-button">Now Playing</a>
+	  <a id = "upcoming" class="w3-bar-item w3-button">Upcoming</a>
+    </div>
+    <a class="w3-bar-item w3-button" id="find">Find</a>
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->	
+<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <div class="w3-bar-item w3-padding-24 w3-wide"> FILM REVIEW </div>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
 </header>
 
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
-<ul>
-	<li><a class="selected" href="">Home</a></li>
-	<li><a href="Business.html">Business</a></li>
-	<li><a href="Engineering.html">Engineering</a></li>
-	<li class=about><a href="About.html">About</a></li>
-</ul>
-<br>
-<!-- shouldn't need [class="body"] since css already refers to the tag <body> -->
-<body class="body">
-	<h2> Home: </h2>
-	<hr>
-	<!-- spelling mistake: "... of people are using computers" -->
-	<!-- also, random spaces again. doesn't impact the actual page but makes reading the html a bit annoying -->
-	<p>Everyone knows that this is the age of computer and vast majority 				of people are using computer. Development of science and technology 			has direct effect on our daily life as well as in our social life. 				Computer technology has made communication possible from one part 				of the world to the other in seconds. They can see the transactions 			in one part of the world while staying in the other part. Computer 				development is one of the greatest scientific achievements of the 				20 th century. Computers are used in various fields as well as in 				teaching and learning. Some of the major computer application 				fields are listed below.</p>
-	<!-- the link below has a weird space in it. it works but may be worth checking that and any other links? -->
-	<cite>Anil, A. (2007). IMPACT OF COMPUTER ON SOCIETY. [online] Aakar Tech. Available at: <a href= "https://tech.aakarpost.com/2007/11/impact-of-computer-on-	society.html"> https://tech.aakarpost.com/2007/11/impact-of-computer-on-	society.html</a>[Accessed 1 Nov. 2018].</cite>
-<hr>
-<article>
-<strong>Computers in Business</strong><br>
-In the field of business, computers are very useful. They are used in keeping records of daily sales and profits. Computers are also used to prepare materials to promote the products of the business establishments.<br>
-<strong>Computers in Engineering</strong><br>
-Engineers use computers to create the design of a complex object using a computer program for Computer-Aided Drafting.<br>
-<strong>Computers in the Government</strong><br>
-Computers are used to keep records of the people that the government serves. Several government agencies use computers to facilitate the task they are required to give to the people.<br>
-<strong>Computers at Home</strong><br>
-Computers are used at home for recreational purposes. You can listen to music, watch movies and play games. Children use their computers at home to do their schoolwork. Parents use computers to assist them in doing their daily tasks. If your computer at home has internet access, then you can explore the amazing features of the Internet in the comfort of your home.<br>
-<strong>Computers in Manufacturing</strong><br>
-Computers are used in manufacturing to manipulate machine that perform dangerous tasks or tasks that are repeatedly done.<br>
-<strong>Computers in School</strong><br>
-Computer Education is one subject taught in schools today. Teachers use computers in classroom instruction, in computing grades and in preparing visual aids. Students use computers to study various computer applications. Libraries are connected to the Internet and students access the internet to do research.<br>
-<strong>Computers in Science</strong><br>
-Computers are used in science to stimulate experiments, which are dangerous to perform in real life. Computers are also used to record data and information derived from experiments.<br>
-</article>
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px">
 
-<cite> PINGOL, L. (2009). Application Of Computers To Society. [online] Slideshare.net. Available at: <a href="https://www.slideshare.net/CyberTeach/application-of-computers-to-society?from_action=save"> https://www.slideshare.net/CyberTeach/application-of-computers-to-society?from_action=save </a> [Accessed 12 Nov. 2018].</cite><br>
-<hr>
-<p> <div class="italic">Charles Babbage (1791-1871) designed the first automatic computing engines. He invented computers but failed to build them. The first complete Babbage Engine was completed in London in 2002, 153 years after it was designed. Difference Engine No. 2, built faithfully to the original drawings, consists of 8,000 parts, weighs five tons, and measures 11 feet long.
-This one is Serial Number 2 and is located in Silicon Valley at the Computer History Museum in Mountain View, California.</div>
-</p>
-<a title="Jitze Couperus from Los Altos Hills, California, USA [CC BY 2.0 (https://creativecommons.org/licenses/by/2.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Babbage_Difference_Engine_(Being_utilised).jpg"><img width="512" alt="Babbage Difference Engine (Being utilised)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Babbage_Difference_Engine_%28Being_utilised%29.jpg/512px-Babbage_Difference_Engine_%28Being_utilised%29.jpg"></a>
+  <!-- Push down content on small screens -->
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+  <!-- spelling mistake: "... of people are using computers" -->
+  <!-- also, random spaces again. doesn't impact the actual page but makes reading the html a bit annoying -->
+  <!--<form action="http://127.0.0.1:8090/list" method="get"> -->
+  
+  <!--<input type="submit" value="Search" id="search">-->
+  <!--</form> -->
+	
+  <!-- Top header -->
+  <header class="w3-container w3-xlarge" style="background-color:#d6d6d6">
+    <p class="w3-left" id="header" style="padding-top:5px">Home</p>
+	<p class="w3-right" style="margin:auto;max-width:300px">
+		<input class="w3-input w3-border" type="text" placeholder="Search..." name="movie" value ="" id="query">
+		<button class="search"id="search"><i class="fa fa-search"></i></button>
+	</p>
+  </header>
 
+  <!-- Image header -->
+  <div class="w3-display-container w3-container" style="background-color:black;max-height:500px">
+    <img id="spotlightimg" style="width:100%;max-height:500px;object-fit:cover">
+    <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
+      <h1 id="spotlight1" class="w3-jumbo w3-hide-small"></h1>
+      <h1 id="spotlight2" class="w3-hide-large w3-hide-medium"></h1>
+	  <h1 class="w3-hide-small">SPOTLIGHT</h1>
+      <!--<h1 class="w3-hide-small">COLLECTION 2016</h1>-->
+      <p id="spotlightpara"></p>
+    </div>
+  </div>
 
-<br>
-<div class=caption>Babbage Difference Engine (Being utilised)</div>
-<hr>
-<main>
-<p>Computers play a great role in the society. Whether at home, in school, at the mall or in the office, computers significantly help in the accomplishment of various tasks. Be it at work or at play, computers have undeniably been utilized to perform general or specific activities that enable life to be more convenient and worry-free.</p>
+  <div class="w3-container w3-text-black">
+    <p id="number" style="margin-top:4px; margin-bottom:4px;"></p>
+  </div>
+  <!-- Product grid -->
+  <div class="w3-row w3-grayscale" id="content">
+	<!--
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="/w3images/jeans1.jpg" style="width:100%">
+        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="/w3images/jeans2.jpg" style="width:100%">
+        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
+      </div>
+    </div>
 
-	<cite> PINGOL, L. (2009). Application Of Computers To Society. [online] Slideshare.net. Available at: <a href="https://www.slideshare.net/CyberTeach/application-of-computers-to-society?from_action=save"> https://www.slideshare.net/CyberTeach/application-of-computers-to-society?from_action=save </a> [Accessed 12 Nov. 2018].</cite>
-<p><div class="italic">Navigate through the rest of the site at your own pleasure to read in more detail about specific areas of society computing has a positive contribution to. </div></p>
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <div class="w3-display-container">
+          <img src="/w3images/jeans2.jpg" style="width:100%">
+          <span class="w3-tag w3-display-topleft">New</span>
+          <div class="w3-display-middle w3-display-hover">
+            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+          </div>
+        </div>
+        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="/w3images/jeans3.jpg" style="width:100%">
+        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+      </div>
+    </div>
 
-<p class=auth>
-Alex Goodall
-<br>
-Github: 
-<a href="https://github.com/sacktock">https://github.com/sacktock</a>
-<br>
-LinkedIn: 
-<a href= "https://www.linkedin.com/in/alex-goodall-6aa1a94b/">https://www.linkedin.com/in/alex-goodall-6aa1a94b/</a>
-</p>
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="/w3images/jeans3.jpg" style="width:100%">
+        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+      </div>
+      <div class="w3-container">
+        <div class="w3-display-container">
+          <img src="/w3images/jeans4.jpg" style="width:100%">
+          <span class="w3-tag w3-display-topleft">Sale</span>
+          <div class="w3-display-middle w3-display-hover">
+            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+          </div>
+        </div>
+        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
+      </div>
+    </div>
 
-</main>
-</body>
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="/w3images/jeans4.jpg" style="width:100%">
+        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="/w3images/jeans1.jpg" style="width:100%">
+        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
+      </div>
+    </div>
+	<!-- End page content -->
+  </div>
+  <div class="center">
+	<button id="previous" class="w3-button w3-red w3-margin-bottom w3-margin-top">&laquo; Previous</button>
+	<button id="next" class="w3-button w3-red w3-margin-bottom w3-margin-top">Next &raquo;</button>
+	</div>
+</div>
+<!-- Movie Display -->
+<div id="movie_display" class="w3-modal">
+  <div class="w3-modal-content w3-black w3-animate-zoom" style="padding:8px">
+    <div class="w3-container w3-black w3-left-align" id="backdrop" style="background-size: cover">
+      <i onclick="document.getElementById('movie_display').style.display='none'" class="fa fa-remove w3-right w3-button w3-transparent w3-small"></i>
+      <h2 class="w3-wide" id="title"></h2>
+    </div>
+  </div>
+</div>
+
+<div id="person_display" class="w3-modal">
+  <div class="w3-modal-content w3-black w3-animate-zoom" style="padding:8px">
+    <div class="w3-container w3-black w3-left-align" style="background-size: cover">
+      <i onclick="document.getElementById('person_display').style.display='none'" class="fa fa-remove w3-right w3-button w3-transparent w3-small"></i>
+      <h2 class="w3-wide" id="name"></h2>
+    </div>
+  </div>
+</div>
+
+<script>
+// Open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+spotlight(event);
+</script>
 </html>

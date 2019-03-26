@@ -1,159 +1,141 @@
-html{
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
-	font-size: 14px;
-	background-color: #ffffff
+
+
+/*//////////////////////////////////////////////////////////////////
+[ FONT ]*/
+
+
+@font-face {
+  font-family: Lato-Regular;
+  src: url('../fonts/Lato/Lato-Regular.ttf'); 
 }
 
-h1{
-	font-size: 32px;
-}
-header{
-	margin-top: 16px;
-	margin-bottom: 32px;
-}
-body {
-	width: 800px;
-	left:0;
-	right:0;
-	bottom:0px;
-	background-color: #e6f2ff;
-	box-shadow: 10px 10px grey;
+@font-face {
+  font-family: Lato-Bold;
+  src: url('../fonts/Lato/Lato-Bold.ttf'); 
 }
 
-ul{
-	list-style-type: none;
+/*//////////////////////////////////////////////////////////////////
+[ RESTYLE TAG ]*/
+* {
+	margin: 0px; 
+	padding: 0px; 
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+	font-family: sans-serif;
+}
+
+body{
+    color:#000000;
+    margin-left:0;
+    margin-right:0;
+    margin-top:0;
+    margin-bottom:0;
+    margin-width:0;
+    margin-height:0;
+    background-color:#A3A6BA; 
+	box-sizing: border-box;
+}
+
+/* ------------------------------------ */
+a {
 	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-	background-color: #333;
+	transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
 }
 
-.about {
-	float:right;
+a:focus {
+	outline: none !important;
 }
 
-li {
-	float:left;
-}
-
-.selected{
-	color: white;
-	font-weight:bold;
-}
-
-
-li a {
-	display: block;
-	color: white;
-	text-align: centre;
-	padding: 14px 16px;
+a:hover {
 	text-decoration: none;
 }
 
-li a:link{
-	text-decoration: none;
-	color: white;
+/* ------------------------------------ */
+h1,h2,h3,h4,h5,h6 {margin: 0px;}
+
+p {margin: 0px;}
+
+ul, li {
+	margin: 0px;
+	list-style-type: none;
 }
 
-li a:hover {
-	background-color: #111;
-	text-decoration: none;
-	color: white;
+/* ------------------------------------ */
+input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+  margin-left: 12px;
 }
 
-.italic {
-	font-style: italic;
-	font-style: inline;
-}
-
-iframe{
-	width: 512px;
-	height: 384px;
-	display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.body{
-	margin:auto;
-	margin-top: 16px;
-	margin-bottom: 16px;
-    width: 50%;
-	padding-right:86px;
-	padding-left:86px;
-	padding-top: 16px;
-	text-indent:0;
-	padding-bottom: 16px;
-}
-
-strong{
-	font-style: bold;
-}
-
-.auth{
-	font-size: 10px;
-}
-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-hr{
-	display: block;
-	height: 3px;
-	color: #cce6ff;
-	padding-top: 2px;
-}
-
-.caption{
-	padding-top: 4px;
-	font-size:18px;
-}
-
-.bottom {
-	padding: 8px;
-	padding-bottom: 16px;
-}
-
-.label {
-	padding-left: 8px;
-	padding-bottom:8px;
-	font-weight: bold;
-	font-size: 16px;
-}
-
-.para {
-	padding-left: 8px;
-	padding-bottom: 0px;
-	padding-top:16px;
-	font-style: italic;
-}
-
-button {
-  background-color: #cccccc;
-  border: none;
-  color: black;
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 12px;
-}
 
 textarea {
-	width: 600px;
-	height: 120px;
-	border: 3px solid #cccccc;
-	padding: 5px;
-	font-family: Tahoma, sans-serif;
-	background-image: url(bg.gif);
-	background-position: bottom right;
-	background-repeat: no-repeat;
+  display: block;
+  outline: none;
 }
 
+textarea:focus, input:focus {
+  border-color: transparent !important;
+}
+
+/* ---------------------------------- */
+.search {
+	float: left;
+	width: 15%;
+	padding: 11px;
+	background: #2196F3;
+	color: white;
+	font-size: 15px;
+	border: 1px solid grey;
+	border-left: none;
+	cursor: pointer;
+}
+
+.search:hover {
+  background: #0b7dda;
+}
+
+.object-fit_contain { object-fit: contain }
+
+iframe {
+	border: none !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.frame{
+	-webkit-border-image: -webkit-gradient(linear, left top, left bottom, from(#00abeb), to(#fff), color-stop(0.5, #fff)
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
