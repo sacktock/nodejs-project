@@ -14,6 +14,8 @@ const api_key = 'api_key=f5a15381e863efaf6551e766d6b1088f'
 var getAccessToken;
 var page;
 var genres;
+var session_id;
+var guest;
 
 //Access client side at http://127.0.0.1:8090/index.html
 
@@ -126,10 +128,42 @@ app.get('/details/movie', function(req,resp){
 	});
 });
 
+app.get('/details/movie/credits', function(req,resp){
+	var query = req.query.id;
+	var myAccessToken = 'https://api.themoviedb.org/3/movie/'+
+	query +
+	'/credits'+
+	'?'+
+	api_key;
+	console.log('api request at: '+myAccessToken);
+	api_request(myAccessToken, function(err,data){
+		if (err) {
+			return resp.send(err);
+		}
+		resp.send(data)
+	});
+});
+
 app.get('/details/person', function(req,resp){
 	var query = req.query.id;
 	var myAccessToken = 'https://api.themoviedb.org/3/person/'+
 	query +
+	'?'+
+	api_key;
+	console.log('api request at: '+myAccessToken);
+	api_request(myAccessToken, function(err,data){
+		if (err) {
+			return resp.send(err);
+		}
+		resp.send(data)
+	});
+});
+
+app.get('/details/person/movie/credits', function(req,resp){
+	var query = req.query.id;
+	var myAccessToken = 'https://api.themoviedb.org/3/person/'+
+	query +
+	'/movie_credits'+
 	'?'+
 	api_key;
 	console.log('api request at: '+myAccessToken);
@@ -183,12 +217,12 @@ app.get('/discover/genre', function(req,resp){
 	});
 });
 
-app.get('/find/actor', function(req,resp){
-	var actor = req.query.actor;
+app.get('/person/find/movie', function(req,resp){
+	var id = req.query.id;
 	getAccessToken = 'https://api.themoviedb.org/3/discover/movie?'+
 	api_key+
 	'&sort_by=popularity.desc'+
-	'&with_cast='+String(actor);
+	'&with_people='+id;
 	console.log('api request at: ' +getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
@@ -198,27 +232,12 @@ app.get('/find/actor', function(req,resp){
 	});
 });
 
-app.get('/find/director', function(req,resp){
-	var director = req.query.director;
-	getAccessToken = 'https://api.themoviedb.org/3/discover/movie?'+
-	api_key+
-	'&sort_by=popularity.desc'+
-	'&with_crew='+String(director);
-	console.log('api request at: ' +getAccessToken);
-	api_request(getAccessToken, function(err,data){
-		if (err) {
-			return resp.send(err);
-		}
-		resp.send(data);
-	});
-});
-
-app.get('/find/company', function(req,resp){
-	var company = req.query.company;
-	getAccessToken = 'https://api.themoviedb.org/3/discover/movie?'+
-	api_key+
-	'&sort_by=popularity.desc'+
-	'&with_companies='+String(company);
+app.get('/movie/similar', function(req,resp){
+	var id = req.query.id;
+	getAccessToken = 'https://api.themoviedb.org/3/movie/'+
+	id+
+	'/similar?'+
+	api_key;
 	console.log('api request at: ' +getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
@@ -315,7 +334,7 @@ app.get('/person/popular', function(req,resp){
 
 
 //Authentication methods
-app.get('/authentication', function(req,resp){
+app.get('/authentication/token/new', function(req,resp){
 	var myAccessToken ='https://api.themoviedb.org/3/authentication/token/new?'+
 	api_key;
 	console.log('api request at: '+myAccessToken);
@@ -323,15 +342,140 @@ app.get('/authentication', function(req,resp){
 		if (err) {
 			return resp.send(err);
 		}
+		guest =false;
 		resp.send(data);
 	});
 	
 });
 
-app.post('/session', function(req,resp){
+app.get('/authentication/guest_session/new', function(req,resp){
+	var myAccessToken = 'https://api.themoviedb.org/3/authentication/guest_session/new?'+
+	api_key;
+	console.log('api request at: '+myAccessToken);
+	api_request(myAccessToken, function(err,data){
+		if (err) {
+			return resp.send(err);
+		}
+		guest=true;
+		resp.send(data);
+	});
+});
+
+function post_request(URL,body){
+	fetch(URL,{
+		method: "post",
+		body: JSON.stringify(body)
+	}).then(function(response){
+		return response;
+	}).then(function(data){
+		
+	});
+}
+
+app.post('authentication/session/new', function(req,resp){
 	var myAccessToken = 'https://api.themoviedb.org/3/authentication/session/new?'+
 	api_key;
+	var token = req.body.request_token;
+	var body = '{'+
+	'"request_token": "'+ token+'"';
+	'}';
+	var data = post_request(myAccessToken,body);
+	if (data.success){
+		session_id = data.session_id;
+		resp.status(200).send('Success');
+	} else {
+		session_id='';
+		resp.send(403).send('Failure');
+	}
+	
 	//POST request
 });
+//DELETE session needed here <---------------
 ///////////////////////////////////////////////
+//POST methods
+app.post('/movie/rate', function(req,resp){
+	var value = req.body.value;
+	var id = req.body.id;
+	var myAccessToken = 'https://api.themoviedb.org/3/movie/'+
+	id+
+	'/rating?'+
+	api_key;
+	if (!guest){
+		myAccessToken += '&session_id='+session_id;
+	} else {
+		myAccessToken += '&guest_session_id='+session_id;
+	}
+	
+	var body = '{'+
+	'"value": '+value+
+	'}';
+	resp.send(post_request(myAccessToken,body));
+});
+////DELETE rating needed here <----------------
+app.post('/movie/favourite', function(req,resp){
+	var account_id = req.body.account_id;
+	var id = req.body.id;
+	var favourite = req.body.favourite;
+	if (!account_id){
+		account_id = '{account_id}';
+	}
+	var myAccessToken = 'https://api.themoviedb.org/3/account/'+
+	account_id+
+	'/favourite?'+
+	api_key+
+	'&session_id='+
+	session_id;
+	
+	var body = '{'+
+  '"media_type": "movie",'+
+  '"media_id":'+id+','+
+  '"favorite": '+ favorite+
+	'}';
+	resp.send(post_request(myAccessToken,body));
+});
+
+//Account methods
+app.get('account/favourite',function(req,resp){
+	var account_id = req.query.account_id;
+	if (!account_id){
+		account_id = '{account_id}';
+	}
+	getAccessToken = 'https://api.themoviedb.org/3/account/'+
+	account_id+
+	'/favorite/movies?'+
+	api_key+
+	'&session_id='+
+	session_id+
+	'&sort_by=created_at.asc';
+	console.log('api request at: '+getAccessToken);
+	api_request(myAccessToken, function(err,data){
+		if (err) {
+			return resp.send(err);
+		}
+		resp.send(data);
+	});
+});
+
+app.get('account/rated',function(req,resp){
+	var account_id = req.query.account_id;
+	if (!account_id){
+		account_id = '{account_id}';
+	}
+	getAccessToken = 'https://api.themoviedb.org/3/account/'+
+	account_id+
+	'/rated/movies?'+
+	api_key+
+	'&session_id='+
+	session_id+
+	'&sort_by=created_at.asc';
+	console.log('api request at: '+getAccessToken);
+	api_request(myAccessToken, function(err,data){
+		if (err) {
+			return resp.send(err);
+		}
+		resp.send(data);
+	});
+});
+
+
 module.exports = app;

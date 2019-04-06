@@ -32,12 +32,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </div>
   <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
     <a class="w3-bar-item w3-button" id="trending">Trending</a>
-    <a class="w3-bar-item w3-button" id="actors">Actors</a>
 	
-    <a  class="w3-button w3-block w3-white w3-left-align" id="genres">
-      Genres <i class="fa fa-caret-right"></i>
-    </a>
-    <div id="genreAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium"></div>
+    
   <a  class="w3-button w3-block w3-white w3-left-align" id="discover">
       Discover <i class="fa fa-caret-right"></i>
     </a>
@@ -48,6 +44,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	  <a id = "now_playing" class="w3-bar-item w3-button">Now Playing</a>
 	  <a id = "upcoming" class="w3-bar-item w3-button">Upcoming</a>
     </div>
+	<a  class="w3-button w3-block w3-white w3-left-align" id="genres">
+      Genres <i class="fa fa-caret-right"></i>
+    </a>
+    <div id="genreAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium"></div>
+	   <a class="w3-bar-item w3-button" id="actors">People</a>
     <a class="w3-bar-item w3-button" id="find">Find</a>
   </div>
 </nav>
@@ -105,11 +106,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
         <img src="/w3images/jeans1.jpg" style="width:100%">
         <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
       </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans2.jpg" style="width:100%">
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
     </div>
+	
 
     <div class="w3-col l3 s6">
       <div class="w3-container">
@@ -158,25 +156,109 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	<!-- End page content -->
   </div>
   <div class="center">
-	<button id="previous" class="w3-button w3-red w3-margin-bottom w3-margin-top">&laquo; Previous</button>
-	<button id="next" class="w3-button w3-red w3-margin-bottom w3-margin-top">Next &raquo;</button>
+	<button id="previous" class="w3-button w3-black w3-margin-bottom w3-margin-top">&laquo; Previous</button>
+	<button id="next" class="w3-button w3-black w3-margin-bottom w3-margin-top">Next &raquo;</button>
 	</div>
 </div>
 <!-- Movie Display -->
 <div id="movie_display" class="w3-modal">
-  <div class="w3-modal-content w3-black w3-animate-zoom" style="padding:8px">
-    <div class="w3-container w3-black w3-left-align" id="backdrop" style="background-size: cover">
-      <i onclick="document.getElementById('movie_display').style.display='none'" class="fa fa-remove w3-right w3-button w3-transparent w3-small"></i>
-      <h2 class="w3-wide" id="title"></h2>
-    </div>
+  <div class="w3-modal-content w3-black w3-animate-zoom">
+	
+		<img id="backdrop" style="width:100%;max-height:500px;object-fit:cover
+	;-webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+	mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));">
+	<span onclick="document.getElementById('movie_display').style.display='none'" 
+      class="w3-button w3-display-topright fa fa-remove w3-transparent w3-small"></span>
+	  <div class="w3-container">
+		  <h1 class="w3-wide" id="title" style="margin-left:24px"></h1>
+		  
+		  <div class ="w3-col 13 s6">
+		  <div class="w3-container">
+		  <p id="tagline" style="margin-left:7px"></p>
+		  <p id ="caption" style="margin-left:7px"></p>
+		  </div>
+		  </div>
+		  <div class="w3-col 13 s6">
+		  <div class="w3-container">
+		  <span id="favourite" class="w3-button w3-black w3-right"><i class="fa fa-thumbs-up"></i> Mark as Favourite</span>
+		  <div class="w3-dropdown-hover w3-right">
+		  <span id="rate" class="w3-button w3-black w3-right"><i class="fa fa-star checked"></i> Rate</span>
+		  <div id="drop_down_rate" class="w3-dropdown-content" style="background-color:black;white-space: nowrap !important;left: auto !important; right: 0px !important;">
+		  
+			</div>
+		  </div>
+		  </div>
+		  </div>
+		  <div class="w3-container">
+		  <p id="desc" style="margin-left:7px;margin-bottom:12px" style="word-wrap: break-word;"></p>
+		  </div>
+			<div class="w3-col l3 s6">
+			  <div class="w3-container">
+				<img id="poster"style="width:100%">
+			  </div>
+			</div>
+			<div class="w3-col l3 s6">
+			  <div class="w3-container">
+				<p id="movie_genres"></p>
+			  </div>
+			</div>
+			<div class="w3-col l3 s6">
+			  <div class="w3-container">
+				<p id="info" style="word-wrap: break-word;"></p>
+			  </div>
+			</div>
+			<div class="w3-col l3 s6">
+			  <div class="w3-container">
+				<p id="companies"></p>
+			  </div>
+			</div>
+	</div>
+	<div class="w3-container">
+	<p style="margin-left:24px;margin-top:24px;margin-bottom:12px"><b>CAST:</b></p>
+	</div>
+	<div id="cast_container"class="w3-container">
+	</div>
+	<div class="w3-container"id="more_cast">
+	</div>
+	<div class="w3-container">
+	<p style="margin-bottom:12px;margin-left:24px;margin-top:8px"><b>CREW:</b></p>
+	</div>
+	<div id="crew_container"class="w3-container">
+	</div>	
+	<div class="w3-container" id="more_crew">
+	<button class="w3-button w3-black" style="margin-left:24px" >more...</button>
+	</div>
+	<div class="w3-container" id="similar_movies">
+	
+	</div>
+	
   </div>
 </div>
 
 <div id="person_display" class="w3-modal">
-  <div class="w3-modal-content w3-black w3-animate-zoom" style="padding:8px">
-    <div class="w3-container w3-black w3-left-align" style="background-size: cover">
+  <div class="w3-modal-content w3-black w3-animate-zoom" >
+    <div class="w3-container w3-black w3-left-align" style="background-size: cover;background-image: linear-gradient(#A3A6BA, black 90%);">
       <i onclick="document.getElementById('person_display').style.display='none'" class="fa fa-remove w3-right w3-button w3-transparent w3-small"></i>
-      <h2 class="w3-wide" id="name"></h2>
+      <h2 class="w3-wide" id="name" style="margin-left:24px"></h2>
+	  <p id="person_job" style="margin-left:24px;margin-bottom:12px"></p>
+	  <div class="w3-half">
+			  <div class="w3-container">
+				<img id="portrait"style="width:100%">
+			  </div>
+			</div>
+		<div class="w3-half">
+			  <div class="w3-container">
+				<p id="about"></p>
+			  </div>
+			</div>
+		<div class="w3-container">
+	<p style="margin-bottom:12px;margin-top:24px;margin-left:12px"><b>INVOLVED IN:</b></p>
+	</div>
+		<div id="film_container"class="w3-container">
+	</div>
+	<div class="w3-container" id="more_film" style="margin-bottom:24px">
+	
+	</div>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-
+var searchStr = '/movie?movie=';
 //example fetch 
 document.addEventListener("DOMContentLoaded", function(){
 	
@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	var latest = document.getElementById('latest');
 	var now_playing = document.getElementById('now_playing');
 	var upcoming = document.getElementById('upcoming');
+	var find = document.getElementById('find');
 	//
 	var header = document.getElementById('header');
 	var number = document.getElementById('number');
@@ -22,7 +23,8 @@ document.addEventListener("DOMContentLoaded", function(){
 	var previous = document.getElementById('previous');
 	var next = document.getElementById('next');
 	
-	var searchStr = '/movie?movie=';
+	var rate = document.getElementById('rate');
+	var favourite = document.getElementById('favourite');
 	
 	trending.addEventListener('click', async function(event){
 		resetAll();
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	actors.addEventListener('click', async function(event){
 		resetAll();
 		actors.className += ' w3-white';
-		header.innerHTML = 'Actors'
+		header.innerHTML = 'People'
 		closeAll();
 		console.log('DOM updated...')
 		searchStr = '/person?person='
@@ -65,6 +67,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		genres.className += ' w3-white';
 		header.innerHTML = 'Genres'
 		closeAll();
+		
+		
+		genreAccFunc();
+	});
+	
+	async function setup_genres(){
 		var x = document.getElementById("genreAcc");
 		if (x.innerHTML == ''){
 			try{
@@ -103,8 +111,7 @@ document.addEventListener("DOMContentLoaded", function(){
 				alert(e);
 			}
 		}
-		genreAccFunc();
-	});
+	}
 	
 	function resetGenre(){
 		var x = document.getElementById("genreAcc");
@@ -123,11 +130,19 @@ document.addEventListener("DOMContentLoaded", function(){
 		disAccFunc();
 	});
 	
+	find.addEventListener('click',function(){
+		resetAll();
+		find.className += ' w3-white';
+		header.innerHTML = 'Find';
+		closeAll();
+	});
+	
 	function resetAll(){
 		trending.classList.remove('w3-white');
 		actors.classList.remove('w3-white');
 		genres.classList.remove('w3-white');
 		discover.classList.remove('w3-white');
+		find.classList.remove('w3-white');
 		resetDis();
 		genres.innerHTML = 'Genres <i class="fa fa-caret-right"></i>'
 		discover.innerHTML = 'Discover <i class="fa fa-caret-right"></i>'
@@ -148,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	function genreAccFunc() {
 	  var x = document.getElementById("genreAcc");
 	  if (x.className.indexOf("w3-show") == -1) {
-		genres.innerHTML = 'Genres <i class="fa fa-caret-down"></i>'
+		genres.innerHTML = 'Genres <i class="fa fa-caret-down"></i>';
 		x.className += " w3-show";
 	  } else {
 		x.className = x.className.replace(" w3-show", "");
@@ -286,8 +301,47 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	
-
+	/*more_cast.addEventListener('click',async );
 	
+	more_crew.addEventListener('click',async function (event){
+		document.getElementById('person_display').style.display='none';
+		id = '1';
+		searchStr = '/person?person='
+		try{
+			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
+			let body = await response.text();
+			console.log('api fetch success...');
+			data = JSON.parse(body);
+			console.log(data)
+			display_query(data);
+		} catch(e) {
+			alert(e);
+		}
+	});*/
+	
+	function setup_rate(){
+		var x = document.getElementById('drop_down_rate');
+		x.innerHTML ='<a class="w3-button w3-black w3-tiny" id="rating"><b>10</b></a>';
+		for (i=0;i<10;i++){
+			x.innerHTML += '<a class="w3-button w3-black w3-small fa fa-star checked" id="rate'+String(i+1)+'" onmouseover="hover_rate(event)" onclick="rate_movie(event)"></a>';
+		}
+		x.innerHTML+='<a class="w3-button w3-red w3-small fa fa-ban" id="delete" onclick="delete_rating()"></a>'
+		
+	};
+	
+	favourite.addEventListener('click', function(){
+		//toggle favourite
+		if (favourite.className.indexOf('w3-red')==-1){
+			favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
+			favourite.className = 'w3-button w3-red w3-right';
+		} else {
+			favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite';
+			favourite.className = 'w3-button w3-black w3-right';
+		}
+		
+		
+	});
+
 	search.addEventListener('click', async function(event){
 		var query = queryBox.value;
 		header.innerHTML = 'Search Results...';
@@ -345,71 +399,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			alert(e);
 		}
 	}
-	
-	function display_query(data){
-		results = data.results;
-		console.log(data);
-		content.innerHTML = '';
-		for (i in results){
-			addGrid(results[i]);
-			console.log('Object added to grid...');
-		};
-		number.innerHTML = data.total_results + ' items, '+data.total_pages+' pages... page '+data.page;
-		console.log('data added...');
-	}
-	
-	function addGrid(obj){
-		if (obj.title){ //film
-			var poster_path;
-			if (obj.poster_path){
-				poster_path = obj.poster_path;
-			} else {
-				poster_path =''
-			}
-			var d = new Date();
-			var r = new Date(obj.release_date);
-			var tag = '';
-			var diff = (d-r)/86400000;
-			if (diff < 0){
-				tag = '<span class="w3-tag w3-display-topleft">Coming Soon</span>';
-			} else if (diff < 63){
-				tag = '<span class="w3-tag w3-display-topleft">New</span>';
-			}
-			var title;
-			if (obj.title.length > 21){
-				title = obj.title.substring(0,18)+'...';
-			} else {
-				title = obj.title;
-			}
-			var onclick="display_movie(event)";
-			content.innerHTML += (
-			'<div class="w3-col l3 s6">'+
-			'<div class="w3-container">'+
-			'<div class="w3-display-container">'+
-			  '<img src=https://image.tmdb.org/t/p/w500'+poster_path+' style="width:100%">'+
-			  tag+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
-			  '</div>'+
-			'</div>'+
-			'<p>'+title+'<br><b>'+obj.release_date+'</b></p>'+
-		  '</div>');
-		} else { //actor
-			var onclick="display_person(event)";
-			content.innerHTML += (
-			'<div class="w3-col l3 s6">'+
-			'<div class="w3-container">'+
-			'<div class="w3-display-container">'+
-			  '<img src=https://image.tmdb.org/t/p/w500'+obj.profile_path+' style="width:100%">'+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
-			  '</div>'+
-			'</div>'+
-			'<p>'+obj.name+'<br><b>Known for '+obj.known_for[0].title+'</b></p>'+
-		  '</div>');
-			console.log('Actor added to grid: '+obj.name);
-		}
-	}
-	
+	setup_genres();
+	setup_rate();
 	trending.click();
+
 });
