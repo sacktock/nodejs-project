@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	var discover = document.getElementById('discover');
 	var top_rated = document.getElementById('top_rated');
 	var popular = document.getElementById('popular');
-	var latest = document.getElementById('latest');
 	var now_playing = document.getElementById('now_playing');
 	var upcoming = document.getElementById('upcoming');
 	var find = document.getElementById('find');
@@ -99,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function(){
 						target = event.target;
 						searchStr = '/movie?movie='
 						target.className += ' w3-light-grey';
+						header.innerHTML = 'Genres - '+ target.innerHTML;
 						target.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>'+target.innerHTML;
 						try{
 							let response = await fetch('http://127.0.0.1:8090/discover/genre?genre='+String(target.id));
@@ -249,9 +249,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	top_rated.addEventListener('click', async function(event){
 		resetDis();
 		top_rated.className += ' w3-light-grey';
+		header.innerHTML = 'Discover - Top Rated';
 		top_rated.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Top Rated';
 		console.log('DOM updated...')
-		searchStr = '/movie?movie='
+		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/top_rated');
 			let body = await response.text();
@@ -266,9 +267,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	popular.addEventListener('click', async function(event){
 		resetDis();
 		popular.className += ' w3-light-grey';
+		header.innerHTML = 'Discover - Popular';
 		popular.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Popular';
 		console.log('DOM updated...')
-		searchStr = '/movie?movie='
+		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/popular');
 			let body = await response.text();
@@ -280,31 +282,13 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	});
 	
-	
-	latest.addEventListener('click', async function(event){
-		resetDis();
-		latest.className += ' w3-light-grey';
-		latest.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Latest';
-		console.log('DOM updated...')
-		searchStr = '/movie?movie='
-		try{
-			let response = await fetch('http://127.0.0.1:8090/discover/latest');
-			let body = await response.text();
-			console.log('api fetch success...');
-			data = JSON.parse(body);
-			display_query(data);
-		} catch(e) {
-			alert(e);
-		}
-	});
-	
-	
 	now_playing.addEventListener('click', async function(event){
 		resetDis();
 		now_playing.className += ' w3-light-grey';
+		header.innerHTML = 'Discover - Now Playing';
 		now_playing.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Now Playing';
 		console.log('DOM updated...')
-		searchStr = '/movie?movie='
+		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/now_playing');
 			let body = await response.text();
@@ -320,9 +304,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	upcoming.addEventListener('click', async function(event){
 		resetDis();
 		upcoming.className += ' w3-light-grey';
+		header.innerHTML = 'Discover - Upcoming';
 		upcoming.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Upcoming';
 		console.log('DOM updated...')
-		searchStr = '/movie?movie='
+		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/upcoming');
 			let body = await response.text();
@@ -337,6 +322,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	ratedBy.addEventListener('click', async function(event){
 		resetYou();
 		ratedBy.className += ' w3-light-grey';
+		header.innerHTML = 'You - Rated';
 		ratedBy.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Rated by you';
 		console.log('DOM updated...')
 		searchStr = '/movie?movie=';
@@ -357,6 +343,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	favouriteY.addEventListener('click', async function(event){
 		resetYou();
 		favouriteY.className += ' w3-light-grey';
+		header.innerHTML = 'You - Favourite';
 		favouriteY.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Favourite';
 		console.log('DOM updated...')
 		searchStr = '/movie?movie=';
@@ -481,11 +468,15 @@ document.addEventListener("DOMContentLoaded", function(){
 	next.addEventListener('click',async function(event){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=1');
-			let body = await response.text();
-			console.log('api fetch success...');
-			data = JSON.parse(body);
-			display_query(data);
-			topF();
+			if (!response.ok){
+				console.log('404 not found error: page out of bounds')
+			} else {
+				let body = await response.text();
+				console.log('api fetch success...');
+				data = JSON.parse(body);
+				display_query(data);
+				topF();
+			}
 		} catch(e) {
 			alert(e);
 		}
@@ -494,11 +485,15 @@ document.addEventListener("DOMContentLoaded", function(){
 	previous.addEventListener('click',async function(event){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=0');
-			let body = await response.text();
-			console.log('api fetch success...');
-			data = JSON.parse(body);
-			display_query(data);
-			topF();
+			if (!response.ok){
+				console.log('404 not found error: page out of bounds')
+			} else {
+				let body = await response.text();
+				console.log('api fetch success...');
+				data = JSON.parse(body);
+				display_query(data);
+				topF();
+			}
 		} catch(e) {
 			alert(e);
 		}

@@ -68,21 +68,33 @@ app.get('/search/person', function(req, resp){
 app.get('/page', function(req, resp){
 	var next = req.query.next;
 	if (next == 1){
-		page +=1
+		console.log('accessing page:' + String(page));
+		page +=1;
 	} else {
-		page -=1
+		console.log('accessing page:' + String(page));
+		page -=1;
 	}
-	console.log('accessing page:' + String(page));
-	getAccessToken += 
-	'&page='+
-	String(page);
+	getAccessToken += '&page='+String(page);
 	
 	console.log('api request at: '+getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
 			return resp.send(err);
 		}
-		resp.send(data)
+		if (data){
+			if(JSON.parse(data).page < 1){
+				page = 1;
+				return resp.status(404).send('Not Found');
+			}
+			if (JSON.parse(data).page >JSON.parse(data).total_pages){
+				page = JSON.parse(data).total_pages;
+				return resp.status(404).send('Not Found');
+			}
+			resp.send(data);
+		} else {
+			page = 1;
+			resp.status(404).send('Not Found');
+		}
 	});
 });
 ///////////////////////////////////////////////
@@ -235,30 +247,6 @@ app.get('/discover/top_rated', function(req,resp){
 
 app.get('/discover/popular', function(req,resp){
 	getAccessToken = 'https://api.themoviedb.org/3/movie/popular?'+
-	api_key;
-	console.log('api request at: '+ getAccessToken);
-	api_request(getAccessToken, function(err,data){
-		if (err) {
-			return resp.send(err);
-		}
-		resp.send(data);
-	});
-});
-
-app.get('/discover/latest', function(req,resp){
-	getAccessToken = 'https://api.themoviedb.org/3/movie/latest?'+
-	api_key;
-	console.log('api request at: '+ getAccessToken);
-	api_request(getAccessToken, function(err,data){
-		if (err) {
-			return resp.send(err);
-		}
-		resp.send(data);
-	});
-});
-
-app.get('/discover/latest', function(req,resp){
-	getAccessToken = 'https://api.themoviedb.org/3/movie/latest?'+
 	api_key;
 	console.log('api request at: '+ getAccessToken);
 	api_request(getAccessToken, function(err,data){

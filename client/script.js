@@ -31,8 +31,13 @@ async function display_movie(event){
 			languages+ ' | '+data.runtime+ 'mins | '+data.vote_average+' </b><i class="fa fa-star checked"></i>';
 			//', '+data.vote_count+' votes. <br> Homepage: '
 			////////////////////////////////////	
-		
+		var rate = document.getElementById('rate');
+		rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
+		rate.className = 'w3-button w3-black w3-right';
 		setRated(id);
+		var favourite = document.getElementById('favourite');
+		favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite'; // or otherwise if show is favourite..
+		favourite.className = 'w3-button w3-black w3-right';
 		setFavourite(id);
 		document.getElementById('desc').innerHTML=data.overview;
 		var path;
@@ -82,7 +87,7 @@ async function display_movie(event){
 		var name;
 		var path;
 		container.innerHTML='';
-		for (i=0;i<8;i++){
+		for (i=0;i<8 && i < data.cast.length;i++){
 			role = data.cast[i].character;
 			name = data.cast[i].name;
 			path = data.cast[i].profile_path;
@@ -99,19 +104,19 @@ async function display_movie(event){
 			}
 			container.innerHTML +='<div class="w3-col l3 s6">'+
 			  '<div class="w3-container">'+
-			  '<div class="w3-display-container">'+
-			  '<img src="'+path+'" style="width:100%">'+
+			  '<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+			  '<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
 			  '<div class="w3-display-middle w3-display-hover">'+
 				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+data.cast[i].id+'">View</button>'+
 			  '</div>'+
-				'<p>'+role+'<br><b>'+name+'</b></p>'+
 				'</div>'+
+				'<p>'+role+'<br><b>'+name+'</b></p>'+
 			  '</div>'+
 			'</div>';
 		}
 		var container = document.getElementById('crew_container');
 		container.innerHTML='';
-		for (i=0;i<4;i++){
+		for (i=0;i<4 && i < data.crew.length;i++){
 			role = data.crew[i].job;
 			name = data.crew[i].name;
 			path = data.crew[i].profile_path;
@@ -128,13 +133,13 @@ async function display_movie(event){
 			}
 			container.innerHTML +='<div class="w3-col l3 s6">'+
 			  '<div class="w3-container">'+
-			  '<div class="w3-display-container">'+
-			  '<img src="'+path+'" style="width:100%">'+
+			  '<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+			  '<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
 			  '<div class="w3-display-middle w3-display-hover">'+
 				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+data.crew[i].id+'">View</button>'+
 			  '</div>'+
-				'<p>'+data.crew[i].job+'<br><b>'+data.crew[i].name+'</b></p>'+
 			  '</div>'+
+			  '<p>'+data.crew[i].job+'<br><b>'+data.crew[i].name+'</b></p>'+
 			  '</div>'+
 			'</div>';
 		}
@@ -143,7 +148,6 @@ async function display_movie(event){
 	//show movie
 	document.getElementById('movie_display').style.display='block'
 	document.getElementById('movie_display').scrollTop=0;
-	
 		
 		////////////////////////////////////////////////
 }
@@ -151,12 +155,11 @@ async function display_movie(event){
 async function setRated(id){
 	var pages=0;
 	var rating;
-	var err = false;
 	try{
 		let response = await fetch('http://127.0.0.1:8090/account/rated');
 		if(!response.ok){
 		  console.log('403 forbidden error: no active session');
-		  err = true;
+		  return
 		}
 		let body = await response.text();
 		console.log('api fetch success...');
@@ -164,10 +167,9 @@ async function setRated(id){
 		pages = data.total_pages;
 	} catch(e) {
 		console.log(e);
-		err = true;
+		return
 	}
 	for (i in data.results){
-		if (err){break;}
 		if (id == data.results[i].id){
 			rating = data.results[i].rating;
 			break;
@@ -175,19 +177,19 @@ async function setRated(id){
 	}
 	
 	for (i=2;i<pages;i++){
-		if (err || rating){break;}
+		if (rating){break;}
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=1');
 			if(!response.ok){
 				console.log('404 not found error: no more pages');
-				break;
+				return
 			}
 			let body = await response.text();
 			console.log('api fetch success...');
 			data = JSON.parse(body);
 		} catch(e) {
 			console.log(e);
-			break;
+			return
 		}
 		for (i in data.results){
 			if (rating){break;}
@@ -199,10 +201,7 @@ async function setRated(id){
 		
 	}
 	var rate = document.getElementById('rate');
-	if (!rating){
-		rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
-		rate.className = 'w3-button w3-black w3-right';
-	} else {
+	if (rating) {
 		rate.className = rate.className.replace('w3-black','w3-yellow');
 		rate.innerHTML = '<i class="fa fa-star checked"></i> <b> '+String(rating)+'</b>';
 	}
@@ -212,23 +211,22 @@ async function setFavourite(id){
 	var pages=0;
 	var data;
 	var isFavourite= false;
-	var err = false;
 	try{
 		let response = await fetch('http://127.0.0.1:8090/account/favourite');
 		if(!response.ok){
 		  console.log('403 forbidden error: no active session');
-		  err = true;
+		  return
+		} else {
+			let body = await response.text();
+			console.log('api fetch success...');
+			data = JSON.parse(body);
+			pages = data.total_pages;
 		}
-		let body = await response.text();
-		console.log('api fetch success...');
-		data = JSON.parse(body);
-		pages = data.total_pages;
 	} catch(e) {
 		console.log(e);
-		err = true;
+		return
 	}
 	for (i in data.results){
-		if (err){break;}
 		if (id == data.results[i].id){
 			isFavourite= true
 			break;
@@ -236,21 +234,22 @@ async function setFavourite(id){
 	}
 	
 	for (i=2;i<pages;i++){
+		if (isFavourite){break;}
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=1');
 			if(!response.ok){
 				console.log('404 not found error: no more pages');
-				break;
+				return
+			} else {
+				let body = await response.text();
+				console.log('api fetch success...');
+				data = JSON.parse(body);
 			}
-			let body = await response.text();
-			console.log('api fetch success...');
-			data = JSON.parse(body);
 		} catch(e) {
 			console.log(e);
-			break;
+			return
 		}
 		for (i in data.results){
-			if (isFavourite){break;}
 			if (id == data.results[i].id){
 				isFavourite= true
 				break;
@@ -259,10 +258,7 @@ async function setFavourite(id){
 	}
 	
 	var favourite = document.getElementById('favourite');
-	if (!isFavourite){
-		favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite'; // or otherwise if show is favourite..
-		favourite.className = 'w3-button w3-black w3-right';
-	} else {
+	if (isFavourite){
 		favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
 		favourite.className = 'w3-button w3-red w3-right'; 
 	}
@@ -283,6 +279,7 @@ async function similar_movies(event){
 		searchStr = '/movie?movie=';
 		document.getElementById('movie_display').style.display='none';
 		document.getElementById('find').click();
+		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Similar films';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/movie/similar?id='+id);
 			let body = await response.text();
@@ -301,6 +298,7 @@ async function more_film(event){
 		var id = target.id;
 		searchStr = '/movie?movie=';
 		document.getElementById('find').click();
+		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('name').innerHTML+' - Films';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/person/find/movie?id='+id);
 			let body = await response.text();
@@ -319,6 +317,7 @@ async function more_film(event){
 		var id = target.id;
 		searchStr = '/person?person=';
 		document.getElementById('find').click();
+		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Cast';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
@@ -337,6 +336,7 @@ async function more_film(event){
 		var id = target.id;
 		searchStr = '/person?person=';
 		document.getElementById('find').click();
+		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Crew';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
@@ -394,8 +394,8 @@ function display_more(data,cast){
 			content.innerHTML += (
 			'<div class="w3-col l3 s6">'+
 			'<div class="w3-container">'+
-			'<div class="w3-display-container">'+
-			  '<img src="'+path+'" style="width:100%">'+
+			'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+			  '<img src="'+path+'" "display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
 			  '<div class="w3-display-middle w3-display-hover">'+
 				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
 			  '</div>'+
@@ -487,9 +487,9 @@ async function display_person(event){
 			}
 			container.innerHTML +='<div class="w3-col l3 s6">'+
 			  '<div class="w3-container">'+
-			  '<div class="w3-display-container">'+
 			  '<p>'+role+', in<br><b>'+title+'</b></p>'+
-			  '<img src='+path+' style="width:100%">'+
+			  '<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+			  '<img src='+path+' style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
 			  '<div class="w3-display-middle w3-display-hover">'+
 				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+movie_id+'">View</button>'+
 			  '</div>'+
@@ -515,7 +515,7 @@ async function spotlight(event){
 		alert(e);
 	}
 	if (data){
-		film = data.results[1];
+		film = data.results[0];
 	}
 	
 	try{
@@ -643,8 +643,8 @@ function hover_rate(event){
 			content.innerHTML += (
 			'<div class="w3-col l3 s6">'+
 			'<div class="w3-container">'+
-			'<div class="w3-display-container img-responsive-2by3">'+
-			  '<img src="'+poster_path+'" style="width:100%">'+
+			'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+			  '<img src="'+poster_path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
 			  tag+
 			  '<div class="w3-display-middle w3-display-hover">'+
 				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
@@ -671,8 +671,8 @@ function hover_rate(event){
 			content.innerHTML += (
 			'<div class="w3-col l3 s6">'+
 			'<div class="w3-container">'+
-			'<div class="w3-display-container img-responsive-2by3">'+
-			  '<img src="'+profile_path+'" style="width: 100%;">'+
+			'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+			  '<img src="'+profile_path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
 			  '<div class="w3-display-middle w3-display-hover">'+
 				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
 			  '</div>'+
