@@ -28,12 +28,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <h3 class="w3-wide"><b>FILM REVIEW</b></h3>
+    <h2 class="w3-wide"><b>FILM REVIEW</b></h2>
   </div>
   <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
     <a class="w3-bar-item w3-button" id="trending">Trending</a>
 	
-    
   <a  class="w3-button w3-block w3-white w3-left-align" id="discover">
       Discover <i class="fa fa-caret-right"></i>
     </a>
@@ -50,7 +49,19 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <div id="genreAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium"></div>
 	   <a class="w3-bar-item w3-button" id="actors">People</a>
     <a class="w3-bar-item w3-button" id="find">Find</a>
+	
+	<a class="w3-button w3-block w3-white w3-left-align" id="you">You <i class="fa fa-caret-right"></i></a>
+	
+	<div id="youAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+	<a id = "favouriteY" class="w3-bar-item w3-button">Favourite</a>
+      <a id = "rated" class="w3-bar-item w3-button">Rated by you</a>
+    </div>
+	
   </div>
+
+	<a id="authenticate" class="w3-button w3-white w3-bar-item w3-padding">Authenticate</a>
+	<a href="https://www.themoviedb.org/login" id="login" class="w3-button w3-white w3-bar-item w3-padding">Login</a>
+	<a href="https://www.themoviedb.org/account/signup" id="create_account" class="w3-button w3-white w3-bar-item w3-padding">Create Account</a>
 </nav>
 
 <!-- Top menu on small screens -->	
@@ -170,6 +181,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	<span onclick="document.getElementById('movie_display').style.display='none'" 
       class="w3-button w3-display-topright fa fa-remove w3-transparent w3-small"></span>
 	  <div class="w3-container">
+	  <div id="movie_id"></div>
 		  <h1 class="w3-wide" id="title" style="margin-left:24px"></h1>
 		  
 		  <div class ="w3-col 13 s6">

@@ -1,4 +1,5 @@
 var searchStr = '/movie?movie=';
+var movie_id;
 //example fetch 
 document.addEventListener("DOMContentLoaded", function(){
 	
@@ -25,6 +26,12 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	var rate = document.getElementById('rate');
 	var favourite = document.getElementById('favourite');
+	
+	var authenticate = document.getElementById('authenticate');
+	
+	var you = document.getElementById('you');
+	var ratedBy = document.getElementById('rated');
+	var favouriteY = document.getElementById('favouriteY');
 	
 	trending.addEventListener('click', async function(event){
 		resetAll();
@@ -67,8 +74,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		genres.className += ' w3-white';
 		header.innerHTML = 'Genres'
 		closeAll();
-		
-		
 		genreAccFunc();
 	});
 	
@@ -122,6 +127,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	
+	function resetYou(){
+		var x = document.getElementById("youAcc");
+		var children = document.getElementById("youAcc").children;
+		for (var i = 0; i < children.length; i++){
+			children[i].classList.remove('w3-light-grey');
+			children[i].innerHTML = children[i].innerHTML.replace('<i class="fa fa-caret-right w3-margin-right"></i>','');
+		}
+	}
+	
 	discover.addEventListener('click', function(){
 		resetAll();
 		discover.className += ' w3-white';
@@ -137,15 +151,27 @@ document.addEventListener("DOMContentLoaded", function(){
 		closeAll();
 	});
 	
+	you.addEventListener('click', function(){
+		resetAll();
+		you.className += ' w3-white';
+		header.innerHTML = 'You';
+		closeAll();
+		youAccFunc();
+	});
+	
 	function resetAll(){
 		trending.classList.remove('w3-white');
 		actors.classList.remove('w3-white');
 		genres.classList.remove('w3-white');
 		discover.classList.remove('w3-white');
 		find.classList.remove('w3-white');
+		you.classList.remove('w3-white');
+		resetGenre();
 		resetDis();
-		genres.innerHTML = 'Genres <i class="fa fa-caret-right"></i>'
-		discover.innerHTML = 'Discover <i class="fa fa-caret-right"></i>'
+		resetYou();
+		genres.innerHTML = 'Genres <i class="fa fa-caret-right"></i>';
+		discover.innerHTML = 'Discover <i class="fa fa-caret-right"></i>';
+		you.innerHTML = 'You <i class="fa fa-caret-right"></i>';
 	}
 	
 	function closeAll(){
@@ -158,6 +184,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		if (discover.className.indexOf("w3-white") == -1) {
 			y.className = y.className.replace(" w3-show", "");
 		}
+		
+		var z = document.getElementById('youAcc');
+		if (you.className.indexOf("w3-white") == -1) {
+			z.className = z.className.replace(" w3-show", "");
+		}
+		
 	}
 	
 	function genreAccFunc() {
@@ -177,6 +209,16 @@ document.addEventListener("DOMContentLoaded", function(){
 		x.className += " w3-show";
 	  } else {
 		x.className = x.className.replace(" w3-show", "");
+		}
+	}
+	
+	function youAccFunc(){
+		var x = document.getElementById("youAcc");
+		if (x.className.indexOf("w3-show") == -1) {
+			you.innerHTML = 'You <i class="fa fa-caret-down"></i>';
+			x.className += " w3-show";
+		} else {
+			x.className = x.className.replace(" w3-show", "");
 		}
 	}
 	
@@ -292,6 +334,46 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	});
 	
+	ratedBy.addEventListener('click', async function(event){
+		resetYou();
+		ratedBy.className += ' w3-light-grey';
+		ratedBy.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Rated by you';
+		console.log('DOM updated...')
+		searchStr = '/movie?movie=';
+		try{
+			let response = await fetch('http://127.0.0.1:8090/account/rated');
+			if(!response.ok){
+			  alert('403 forbidden error: no active session');
+			}
+			let body = await response.text();
+			console.log('api fetch success...');
+			data = JSON.parse(body);
+			display_query(data);
+		} catch(e) {
+			console.log(e);
+		}
+	});
+	
+	favouriteY.addEventListener('click', async function(event){
+		resetYou();
+		favouriteY.className += ' w3-light-grey';
+		favouriteY.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Favourite';
+		console.log('DOM updated...')
+		searchStr = '/movie?movie=';
+		try{
+			let response = await fetch('http://127.0.0.1:8090/account/favourite');
+			if(!response.ok){
+			  alert('403 forbidden error: no active session');
+			}
+			let body = await response.text();
+			console.log('api fetch success...');
+			data = JSON.parse(body);
+			display_query(data);
+		} catch(e) {
+			console.log(e);
+		}
+	});
+	
 	
 	function resetDis(){
 		var children = document.getElementById("disAcc").children;
@@ -301,6 +383,25 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	
+	
+	authenticate.addEventListener('click', async function(event){
+		var data;
+		try{
+			let response = await fetch('http://127.0.0.1:8090/authentication/token/new');
+			let body = await response.text();
+			console.log('api fetch success...');
+			data = JSON.parse(body);
+			console.log(data);
+		} catch(e) {
+			alert(e);
+		}
+		if (data.success){
+			window.location = ('https://www.themoviedb.org/authenticate/'+data.request_token+'?redirect_to=http://127.0.0.1:8090/authentication/session/new');
+			
+		} else {
+			alert('Failure to receive authentication token');
+		}
+	});
 	/*more_cast.addEventListener('click',async );
 	
 	more_crew.addEventListener('click',async function (event){
@@ -329,17 +430,37 @@ document.addEventListener("DOMContentLoaded", function(){
 		
 	};
 	
-	favourite.addEventListener('click', function(){
+	favourite.addEventListener('click', async function(event){
 		//toggle favourite
-		if (favourite.className.indexOf('w3-red')==-1){
-			favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
-			favourite.className = 'w3-button w3-red w3-right';
-		} else {
-			favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite';
-			favourite.className = 'w3-button w3-black w3-right';
+		var id= movie_id;
+		var fav;
+
+		fav = favourite.className.indexOf('w3-red')==-1;
+
+		
+		try{
+			let response = await fetch('http://127.0.01:8090/movie/favourite',
+									   {
+										 method: "POST",
+										 headers: {
+										   "Content-Type": "application/x-www-form-urlencoded"
+										 },
+										 body: "id=" + id+'&favourite='+fav
+									   });
+			if(!response.ok){
+			  alert('403 forbidden error: no active session');
+			} else {
+				if (fav){
+				favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
+				favourite.className = 'w3-button w3-red w3-right'; 
+			  } else {
+				favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite';
+				favourite.className = 'w3-button w3-black w3-right';
+			  }
+			}
+		} catch (e) {
+			alert (e);
 		}
-		
-		
 	});
 
 	search.addEventListener('click', async function(event){

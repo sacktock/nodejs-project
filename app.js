@@ -16,42 +16,16 @@ var page;
 var genres;
 var session_id;
 var guest;
-
 //Access client side at http://127.0.0.1:8090/index.html
 
-//POST with query from form
-app.post('/new', function(req,resp){
-	name = req.body.name
-	email = req.body.email
-	console.log('query params collected')
-	resp.send('Welcome ' + name + '! You have subsribed with the email: '+email)
-	
-})
-//////////////////////////////////
-
-//////////////////////////////////
-//Add data to JSON exmaple
-//POST method to add new recipe 
-app.post('/new', function(req,resp){
-	var obj = new Object();
-	obj.title = req.body.title
-	obj.href = req.body.href
-	obj.ingredients = req.body.ingredients
-	obj.thumbnail = req.body.thumbnail
-	
-	console.log('success')
-	recipes.push(obj)
-	resp.send(obj)
-	
-})
 /////////////////////////////////
 function api_request(getAccessToken,callback){
-	request(getAccessToken, function (error, response, body) {
+	request.get(getAccessToken, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
             result = JSON.stringify(JSON.parse(body));          
-            return callback(result, false);
+            return callback(false,result);
         } else {            
-            return callback(null, error);;
+            return callback(error,null);;
         }
 	});
 		
@@ -361,120 +335,204 @@ app.get('/authentication/guest_session/new', function(req,resp){
 	});
 });
 
-function post_request(URL,body){
-	fetch(URL,{
-		method: "post",
-		body: JSON.stringify(body)
-	}).then(function(response){
-		return response;
-	}).then(function(data){
-		
-	});
+function post_request(URL,body, callback){
+	request.post({
+		url: URL,
+		headers: {
+			"Content-Type": "application/json;charset=utf-8"
+		},
+		body: body
+		}, function(error,response,body){
+			if (!error && response.statusCode == 200) {
+				result = JSON.stringify(JSON.parse(body)); 
+				console.log(result);
+				return callback(false,result);
+			} else {            
+				return callback(error,null);
+			}
+		});
 }
 
-app.post('authentication/session/new', function(req,resp){
+app.get('/authentication/session/new', function(req,resp){
 	var myAccessToken = 'https://api.themoviedb.org/3/authentication/session/new?'+
 	api_key;
-	var token = req.body.request_token;
-	var body = '{'+
-	'"request_token": "'+ token+'"';
-	'}';
-	var data = post_request(myAccessToken,body);
-	if (data.success){
-		session_id = data.session_id;
-		resp.status(200).send('Success');
+	var token = req.query.request_token;
+	var approved = req.query.approved;
+	console.log(token, approved);
+	var body = '{"request_token": "'+token+'"}';
+	console.log(myAccessToken, body);
+	if (approved){
+		post_request(myAccessToken,body, function(err,data){
+			if (err) {
+				return resp.send(err);
+			}
+			let x = JSON.parse(data);
+			if (x.success){
+				session_id = x.session_id;
+				console.log(session_id);
+				
+				return resp.status(301).redirect('http://127.0.0.1:8090');
+			} else {
+				return resp.status(401).send('401 unauthorized error: failure to create session return to http://127.0.0.1:8090')
+			}
+			
+		});
 	} else {
-		session_id='';
-		resp.send(403).send('Failure');
+		resp.status(401).send('401 unauthorized error: user failed to accept authentication request return to http://127.0.0.1:8090')
 	}
 	
+	
+	//fix this so that requests work
 	//POST request
 });
 //DELETE session needed here <---------------
 ///////////////////////////////////////////////
 //POST methods
 app.post('/movie/rate', function(req,resp){
-	var value = req.body.value;
-	var id = req.body.id;
-	var myAccessToken = 'https://api.themoviedb.org/3/movie/'+
-	id+
-	'/rating?'+
-	api_key;
-	if (!guest){
-		myAccessToken += '&session_id='+session_id;
+	console.log('session_id:' +session_id);
+	if (session_id){
+		var value = req.body.value;
+		var id = req.body.id;
+		var myAccessToken = 'https://api.themoviedb.org/3/movie/'+
+		id+
+		'/rating?'+
+		api_key;
+		if (!guest){
+			myAccessToken += '&session_id='+session_id;
+		} else {
+			myAccessToken += '&guest_session_id='+session_id;
+		}
+		
+		var body = '{"value": '+value+'}';
+		console.log('api request at: '+myAccessToken, body);
+		post_request(myAccessToken,body, function(err,data){
+			if (err){
+				return resp.send(err);
+			}
+			resp.status(200).send('ok');
+		});
 	} else {
-		myAccessToken += '&guest_session_id='+session_id;
+		resp.status(403).send('No active session');
 	}
-	
-	var body = '{'+
-	'"value": '+value+
-	'}';
-	resp.send(post_request(myAccessToken,body));
 });
-////DELETE rating needed here <----------------
+
+function delete_request(URL, callback){
+	request.delete(URL,
+		function(error,response,body){
+			if (!error && response.statusCode == 200) {
+				console.log(response);
+				return callback(false,response);
+			} else {            
+				return callback(error,null);
+			}
+		});
+}
+
+//DELETE method
+app.delete('/movie/rate/delete', function(req,resp){
+	if (session_id){
+		var id = req.body.id;
+		var myAccessToken = 'https://api.themoviedb.org/3/movie/'+
+		id+
+		'/rating?'+
+		api_key+
+		'&session_id='+
+		session_id;
+		console.log('api request at: '+myAccessToken);
+		delete_request(myAccessToken, function(err,data){
+			if(err){
+				return resp.send(err);
+			}
+			resp.status(200).send('ok');
+		});
+	} else {
+		resp.status(403).send('No active session');
+	}
+});
+
 app.post('/movie/favourite', function(req,resp){
-	var account_id = req.body.account_id;
-	var id = req.body.id;
-	var favourite = req.body.favourite;
-	if (!account_id){
-		account_id = '{account_id}';
+	console.log('session_id:' +session_id);
+	if (session_id){
+		var account_id = req.body.account_id;
+		var id = req.body.id;
+		var favourite = req.body.favourite;
+		if (!account_id){
+			account_id = '{account_id}';
+		}
+		var myAccessToken = 'https://api.themoviedb.org/3/account/'+
+		account_id+
+		'/favorite?'+
+		api_key+
+		'&session_id='+
+		session_id;
+		
+		var body = '{"media_type": "movie", "media_id": '+id+', "favorite": '+favourite+'}';
+		console.log('api request at: '+myAccessToken, body);
+		post_request(myAccessToken,body, function(err,data){
+			if (err){
+				return resp.send(err);
+			}
+			resp.status(200).send('ok');
+		});
+	} else {
+		resp.status(403).send('No active session');
 	}
-	var myAccessToken = 'https://api.themoviedb.org/3/account/'+
-	account_id+
-	'/favourite?'+
-	api_key+
-	'&session_id='+
-	session_id;
-	
-	var body = '{'+
-  '"media_type": "movie",'+
-  '"media_id":'+id+','+
-  '"favorite": '+ favorite+
-	'}';
-	resp.send(post_request(myAccessToken,body));
 });
+
+
+
 
 //Account methods
-app.get('account/favourite',function(req,resp){
-	var account_id = req.query.account_id;
-	if (!account_id){
-		account_id = '{account_id}';
-	}
-	getAccessToken = 'https://api.themoviedb.org/3/account/'+
-	account_id+
-	'/favorite/movies?'+
-	api_key+
-	'&session_id='+
-	session_id+
-	'&sort_by=created_at.asc';
-	console.log('api request at: '+getAccessToken);
-	api_request(myAccessToken, function(err,data){
-		if (err) {
-			return resp.send(err);
+app.get('/account/favourite',function(req,resp){
+	console.log('session_id:' +session_id);
+	if (session_id){
+		var account_id = req.query.account_id;
+		if (!account_id){
+			account_id = '{account_id}';
 		}
-		resp.send(data);
-	});
+		getAccessToken = 'https://api.themoviedb.org/3/account/'+
+		account_id+
+		'/favorite/movies?'+
+		api_key+
+		'&session_id='+
+		session_id+
+		'&sort_by=created_at.desc';
+		console.log('api request at: '+getAccessToken);
+		api_request(getAccessToken, function(err,data){
+			if (err) {
+				return resp.send(err);
+			}
+			resp.send(data);
+		});
+	} else {
+		resp.status(403).send('No active session');
+	}
 });
 
-app.get('account/rated',function(req,resp){
-	var account_id = req.query.account_id;
-	if (!account_id){
-		account_id = '{account_id}';
-	}
-	getAccessToken = 'https://api.themoviedb.org/3/account/'+
-	account_id+
-	'/rated/movies?'+
-	api_key+
-	'&session_id='+
-	session_id+
-	'&sort_by=created_at.asc';
-	console.log('api request at: '+getAccessToken);
-	api_request(myAccessToken, function(err,data){
-		if (err) {
-			return resp.send(err);
+app.get('/account/rated',function(req,resp){
+	console.log('session_id:' +session_id);
+	if (session_id){
+		var account_id = req.query.account_id;
+		if (!account_id){
+			account_id = '{account_id}';
 		}
-		resp.send(data);
-	});
+		getAccessToken = 'https://api.themoviedb.org/3/account/'+
+		account_id+
+		'/rated/movies?'+
+		api_key+
+		'&session_id='+
+		session_id+
+		'&sort_by=created_at.desc';
+		console.log('api request at: '+getAccessToken);
+		api_request(getAccessToken, function(err,data){
+			if (err) {
+				return resp.send(err);
+			}
+			resp.send(data);
+		});
+	} else {
+		resp.status(403).send('No active session');
+	}
 });
 
 

@@ -1,8 +1,10 @@
 
+
 async function display_movie(event){
 	document.getElementById('person_display').style.display='none'
 	var target = event.target;
 	var id = target.id;
+	movie_id = id;
 	console.log(id);
 	var data;
 	try{
@@ -14,8 +16,7 @@ async function display_movie(event){
 	} catch(e) {
 		alert(e);
 	}
-	document.getElementById('movie_display').style.display='block'
-	document.getElementById('movie_display').scrollTop=0;
+
 	if (data){
 		document.getElementById('title').innerHTML=data.title;
 		document.getElementById('tagline').innerHTML=data.tagline;
@@ -29,14 +30,10 @@ async function display_movie(event){
 		document.getElementById('caption').innerHTML='<b>'+data.release_date+' | '+ 
 			languages+ ' | '+data.runtime+ 'mins | '+data.vote_average+' </b><i class="fa fa-star checked"></i>';
 			//', '+data.vote_count+' votes. <br> Homepage: '
-		////////////////////////////////////	
-		var rate = document.getElementById('rate');
-		rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
-		rate.className = 'w3-button w3-black w3-right';
-		var favourite = document.getElementById('favourite');
-		favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite'; // or otherwise if show is favourite..
-		favourite.className = 'w3-button w3-black w3-right';
-		////////////////////////////////////////////////
+			////////////////////////////////////	
+		
+		setRated(id);
+		setFavourite(id);
 		document.getElementById('desc').innerHTML=data.overview;
 		var path;
 		path = data.poster_path;
@@ -143,7 +140,134 @@ async function display_movie(event){
 		}
 		
 	}
-} 
+	//show movie
+	document.getElementById('movie_display').style.display='block'
+	document.getElementById('movie_display').scrollTop=0;
+	
+		
+		////////////////////////////////////////////////
+}
+
+async function setRated(id){
+	var pages=0;
+	var rating;
+	var err = false;
+	try{
+		let response = await fetch('http://127.0.0.1:8090/account/rated');
+		if(!response.ok){
+		  console.log('403 forbidden error: no active session');
+		  err = true;
+		}
+		let body = await response.text();
+		console.log('api fetch success...');
+		data = JSON.parse(body);
+		pages = data.total_pages;
+	} catch(e) {
+		console.log(e);
+		err = true;
+	}
+	for (i in data.results){
+		if (err){break;}
+		if (id == data.results[i].id){
+			rating = data.results[i].rating;
+			break;
+		}
+	}
+	
+	for (i=2;i<pages;i++){
+		if (err || rating){break;}
+		try{
+			let response = await fetch('http://127.0.0.1:8090/page?next=1');
+			if(!response.ok){
+				console.log('404 not found error: no more pages');
+				break;
+			}
+			let body = await response.text();
+			console.log('api fetch success...');
+			data = JSON.parse(body);
+		} catch(e) {
+			console.log(e);
+			break;
+		}
+		for (i in data.results){
+			if (rating){break;}
+			if (id == data.results[i].id){
+				rating=data.results[i].rating;
+				break;
+			}
+		}
+		
+	}
+	var rate = document.getElementById('rate');
+	if (!rating){
+		rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
+		rate.className = 'w3-button w3-black w3-right';
+	} else {
+		rate.className = rate.className.replace('w3-black','w3-yellow');
+		rate.innerHTML = '<i class="fa fa-star checked"></i> <b> '+String(rating)+'</b>';
+	}
+}
+
+async function setFavourite(id){
+	var pages=0;
+	var data;
+	var isFavourite= false;
+	var err = false;
+	try{
+		let response = await fetch('http://127.0.0.1:8090/account/favourite');
+		if(!response.ok){
+		  console.log('403 forbidden error: no active session');
+		  err = true;
+		}
+		let body = await response.text();
+		console.log('api fetch success...');
+		data = JSON.parse(body);
+		pages = data.total_pages;
+	} catch(e) {
+		console.log(e);
+		err = true;
+	}
+	for (i in data.results){
+		if (err){break;}
+		if (id == data.results[i].id){
+			isFavourite= true
+			break;
+		}
+	}
+	
+	for (i=2;i<pages;i++){
+		try{
+			let response = await fetch('http://127.0.0.1:8090/page?next=1');
+			if(!response.ok){
+				console.log('404 not found error: no more pages');
+				break;
+			}
+			let body = await response.text();
+			console.log('api fetch success...');
+			data = JSON.parse(body);
+		} catch(e) {
+			console.log(e);
+			break;
+		}
+		for (i in data.results){
+			if (isFavourite){break;}
+			if (id == data.results[i].id){
+				isFavourite= true
+				break;
+			}
+		}
+	}
+	
+	var favourite = document.getElementById('favourite');
+	if (!isFavourite){
+		favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite'; // or otherwise if show is favourite..
+		favourite.className = 'w3-button w3-black w3-right';
+	} else {
+		favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
+		favourite.className = 'w3-button w3-red w3-right'; 
+	}
+}
+ 
 function open_genres(){
 	var x = document.getElementById("genreAcc");
 	var genres = document.getElementById('genres');
@@ -426,19 +550,54 @@ function display_query(data){
 		console.log('data added...');
 	}
 	
-function rate_movie(event){
-	var rating = parseInt(event.target.id.substring(4));
-	var rate = document.getElementById('rate');
-	rate.className = rate.className.replace('w3-black','w3-yellow');
-	rate.innerHTML = '<i class="fa fa-star checked"></i> <b> '+String(rating)+'</b>';
-	console.log('Rating: '+ rating);
-}
+async function rate_movie(event){
+		var rating = parseInt(event.target.id.substring(4));
+		var id = movie_id;
+		
+		console.log('Rating: '+ rating);
+		try{
+			let response = await fetch('http://127.0.01:8090/movie/rate',
+									   {
+										 method: "POST",
+										 headers: {
+										   "Content-Type": "application/x-www-form-urlencoded"
+										 },
+										 body: "value=" + rating+'&id='+id
+									   });
+			if(!response.ok){
+			  alert('403 forbidden error: no active session');
+			} else {
+				var rate = document.getElementById('rate');
+				rate.className = rate.className.replace('w3-black','w3-yellow');
+				rate.innerHTML = '<i class="fa fa-star checked"></i> <b> '+String(rating)+'</b>';
+			}
+		} catch (e) {
+			alert (e);
+		}
+	}
 
-	function delete_rating(){
-		var rate = document.getElementById('rate');
-		rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
-		rate.className = 'w3-button w3-black w3-right';
+async function delete_rating(event){
+		var id = movie_id;
 		//delete rating
+		try{
+			let response = await fetch('http://127.0.01:8090/movie/rate/delete',
+									   {
+										 method: "DELETE",
+										 headers: {
+										   "Content-Type": "application/x-www-form-urlencoded"
+										 },
+										 body: 'id='+id
+									   });
+			if(!response.ok){
+			  alert('403 forbidden error: no active session');
+			} else {
+				var rate = document.getElementById('rate');
+				rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
+				rate.className = 'w3-button w3-black w3-right';
+			}
+		} catch (e) {
+			alert (e);
+		}
 	}
 
 function hover_rate(event){
