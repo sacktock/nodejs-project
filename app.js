@@ -16,9 +16,9 @@ var page;
 var genres;
 var session_id;
 var guest;
-//Access client side at http://127.0.0.1:8090/index.html
 
 /////////////////////////////////
+// function to make a GET api request with a callback 
 function api_request(getAccessToken,callback){
 	request.get(getAccessToken, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -31,7 +31,7 @@ function api_request(getAccessToken,callback){
 		
 }
 
-// GET method to search api
+// GET method to search api for a film
 app.get('/search/movie', function(req, resp){
 	var query = req.query.movie;
 	getAccessToken = 'https://api.themoviedb.org/3/search/movie?'+
@@ -48,6 +48,7 @@ app.get('/search/movie', function(req, resp){
 	});
 });
 
+// Get method to search api for a person
 app.get('/search/person', function(req, resp){
 	var query = req.query.person;
 	getAccessToken = 'https://api.themoviedb.org/3/search/person?'+
@@ -98,7 +99,7 @@ app.get('/page', function(req, resp){
 	});
 });
 ///////////////////////////////////////////////
-//GET method for finding all details of a specific movie by id
+//GET method for finding all details of a specific film by id
 app.get('/details/movie', function(req,resp){
 	var query = req.query.id;
 	var myAccessToken = 'https://api.themoviedb.org/3/movie/'+
@@ -114,6 +115,7 @@ app.get('/details/movie', function(req,resp){
 	});
 });
 
+//GET method for finsing all the cast a and crew of a specific film by id
 app.get('/details/movie/credits', function(req,resp){
 	var query = req.query.id;
 	var myAccessToken = 'https://api.themoviedb.org/3/movie/'+
@@ -130,6 +132,7 @@ app.get('/details/movie/credits', function(req,resp){
 	});
 });
 
+//GET method for finding the specific details of a person by id
 app.get('/details/person', function(req,resp){
 	var query = req.query.id;
 	var myAccessToken = 'https://api.themoviedb.org/3/person/'+
@@ -145,6 +148,7 @@ app.get('/details/person', function(req,resp){
 	});
 });
 
+//GET method for finding the films a specific person is invloved in and their invlovement (character/cast member) by id
 app.get('/details/person/movie/credits', function(req,resp){
 	var query = req.query.id;
 	var myAccessToken = 'https://api.themoviedb.org/3/person/'+
@@ -161,6 +165,7 @@ app.get('/details/person/movie/credits', function(req,resp){
 	});
 });
 ////////////////////////////////////////////////////////////
+//GET method for finding trending movies defined by the api
 app.get('/trending', function(req,resp){
 	getAccessToken = 'https://api.themoviedb.org/3/trending/movie/day?'+
 	api_key;
@@ -174,6 +179,7 @@ app.get('/trending', function(req,resp){
 	});
 });
 
+//GET method for retreiving the list of genres defined by the api
 app.get('/genres', function(req,resp){
 	var myAccessToken = 'https://api.themoviedb.org/3/genre/movie/list?'+
 	api_key;
@@ -188,6 +194,7 @@ app.get('/genres', function(req,resp){
 	});
 });
 
+//GET method for finding films of a specific genre defined by the api
 app.get('/discover/genre', function(req,resp){
 	var id = req.query.genre;
 	getAccessToken = 'https://api.themoviedb.org/3/discover/movie?'+
@@ -203,6 +210,7 @@ app.get('/discover/genre', function(req,resp){
 	});
 });
 
+//GET method for finding details of films a specific person is involed in by id
 app.get('/person/find/movie', function(req,resp){
 	var id = req.query.id;
 	getAccessToken = 'https://api.themoviedb.org/3/discover/movie?'+
@@ -218,6 +226,7 @@ app.get('/person/find/movie', function(req,resp){
 	});
 });
 
+//GET method for finding films similar to a specific film defined by the api
 app.get('/movie/similar', function(req,resp){
 	var id = req.query.id;
 	getAccessToken = 'https://api.themoviedb.org/3/movie/'+
@@ -233,6 +242,7 @@ app.get('/movie/similar', function(req,resp){
 	});
 });
 
+//GET method to find top rated films defined by the api 
 app.get('/discover/top_rated', function(req,resp){
 	getAccessToken = 'https://api.themoviedb.org/3/movie/top_rated?'+
 	api_key;
@@ -245,6 +255,7 @@ app.get('/discover/top_rated', function(req,resp){
 	});
 });
 
+//GET method to find popular films defined by the api
 app.get('/discover/popular', function(req,resp){
 	getAccessToken = 'https://api.themoviedb.org/3/movie/popular?'+
 	api_key;
@@ -257,6 +268,7 @@ app.get('/discover/popular', function(req,resp){
 	});
 });
 
+//GET method to find films playing in cinemas
 app.get('/discover/now_playing', function(req,resp){
 	getAccessToken = 'https://api.themoviedb.org/3/movie/now_playing?'+
 	api_key;
@@ -269,6 +281,7 @@ app.get('/discover/now_playing', function(req,resp){
 	});
 });
 
+//GET method to find upcoming films
 app.get('/discover/upcoming', function(req,resp){
 	getAccessToken = 'https://api.themoviedb.org/3/movie/upcoming?'+
 	api_key;
@@ -281,7 +294,7 @@ app.get('/discover/upcoming', function(req,resp){
 	});
 });
 
-
+//GET method to find popular people defined by the api
 app.get('/person/popular', function(req,resp){
 	getAccessToken = 'https://api.themoviedb.org/3/person/popular?'+
 	api_key;
@@ -296,6 +309,7 @@ app.get('/person/popular', function(req,resp){
 
 
 //Authentication methods
+//GET method that requests a new session token
 app.get('/authentication/token/new', function(req,resp){
 	var myAccessToken ='https://api.themoviedb.org/3/authentication/token/new?'+
 	api_key;
@@ -310,19 +324,7 @@ app.get('/authentication/token/new', function(req,resp){
 	
 });
 
-app.get('/authentication/guest_session/new', function(req,resp){
-	var myAccessToken = 'https://api.themoviedb.org/3/authentication/guest_session/new?'+
-	api_key;
-	console.log('api request at: '+myAccessToken);
-	api_request(myAccessToken, function(err,data){
-		if (err) {
-			return resp.send(err);
-		}
-		guest=true;
-		resp.send(data);
-	});
-});
-
+//function to make an api POST request with body and callback
 function post_request(URL,body, callback){
 	request.post({
 		url: URL,
@@ -341,14 +343,15 @@ function post_request(URL,body, callback){
 		});
 }
 
+//server sider GET method that calls an api POST request, requesting a new session_id using the authentication token
 app.get('/authentication/session/new', function(req,resp){
 	var myAccessToken = 'https://api.themoviedb.org/3/authentication/session/new?'+
 	api_key;
 	var token = req.query.request_token;
 	var approved = req.query.approved;
-	console.log(token, approved);
+	console.log('token: '+token, 'approved: '+approved);
 	var body = '{"request_token": "'+token+'"}';
-	console.log(myAccessToken, body);
+	console.log('api request at: '+myAccessToken);
 	if (approved){
 		post_request(myAccessToken,body, function(err,data){
 			if (err) {
@@ -368,14 +371,10 @@ app.get('/authentication/session/new', function(req,resp){
 	} else {
 		resp.status(401).send('401 unauthorized error: user failed to accept authentication request return to http://127.0.0.1:8090')
 	}
-	
-	
-	//fix this so that requests work
-	//POST request
 });
-//DELETE session needed here <---------------
-///////////////////////////////////////////////
+
 //POST methods
+//POST method to rate a film
 app.post('/movie/rate', function(req,resp){
 	console.log('session_id:' +session_id);
 	if (session_id){
@@ -392,7 +391,7 @@ app.post('/movie/rate', function(req,resp){
 		}
 		
 		var body = '{"value": '+value+'}';
-		console.log('api request at: '+myAccessToken, body);
+		console.log('api request at: '+myAccessToken, 'body: '+body);
 		post_request(myAccessToken,body, function(err,data){
 			if (err){
 				return resp.send(err);
@@ -404,6 +403,7 @@ app.post('/movie/rate', function(req,resp){
 	}
 });
 
+// function to make a DELETE api request with callback
 function delete_request(URL, callback){
 	request.delete(URL,
 		function(error,response,body){
@@ -416,7 +416,7 @@ function delete_request(URL, callback){
 		});
 }
 
-//DELETE method
+//DELETE method to delete a rating
 app.delete('/movie/rate/delete', function(req,resp){
 	if (session_id){
 		var id = req.body.id;
@@ -438,6 +438,7 @@ app.delete('/movie/rate/delete', function(req,resp){
 	}
 });
 
+//POST method to mark/unmark a film as favourite
 app.post('/movie/favourite', function(req,resp){
 	console.log('session_id:' +session_id);
 	if (session_id){
@@ -455,7 +456,7 @@ app.post('/movie/favourite', function(req,resp){
 		session_id;
 		
 		var body = '{"media_type": "movie", "media_id": '+id+', "favorite": '+favourite+'}';
-		console.log('api request at: '+myAccessToken, body);
+		console.log('api request at: '+myAccessToken, 'body: '+ body);
 		post_request(myAccessToken,body, function(err,data){
 			if (err){
 				return resp.send(err);
@@ -467,10 +468,8 @@ app.post('/movie/favourite', function(req,resp){
 	}
 });
 
-
-
-
 //Account methods
+//GET request to retreive favourite movies for a particular account/session_id
 app.get('/account/favourite',function(req,resp){
 	console.log('session_id:' +session_id);
 	if (session_id){
@@ -497,6 +496,7 @@ app.get('/account/favourite',function(req,resp){
 	}
 });
 
+//GET request to retreive rated movies for a particular account/session_id
 app.get('/account/rated',function(req,resp){
 	console.log('session_id:' +session_id);
 	if (session_id){

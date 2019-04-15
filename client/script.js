@@ -280,6 +280,7 @@ async function similar_movies(event){
 		document.getElementById('movie_display').style.display='none';
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Similar films';
+		topF();
 		try{
 			let response = await fetch('http://127.0.0.1:8090/movie/similar?id='+id);
 			let body = await response.text();
@@ -299,6 +300,7 @@ async function more_film(event){
 		searchStr = '/movie?movie=';
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('name').innerHTML+' - Films';
+		topF();
 		try{
 			let response = await fetch('http://127.0.0.1:8090/person/find/movie?id='+id);
 			let body = await response.text();
@@ -318,6 +320,7 @@ async function more_film(event){
 		searchStr = '/person?person=';
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Cast';
+		topF();
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
@@ -337,6 +340,7 @@ async function more_film(event){
 		searchStr = '/person?person=';
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Crew';
+		topF();
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
@@ -395,7 +399,7 @@ function display_more(data,cast){
 			'<div class="w3-col l3 s6">'+
 			'<div class="w3-container">'+
 			'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
-			  '<img src="'+path+'" "display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
+			  '<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
 			  '<div class="w3-display-middle w3-display-hover">'+
 				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
 			  '</div>'+
@@ -410,7 +414,7 @@ function display_more(data,cast){
 	}
 
 async function display_person(event){
-	document.getElementById('movie_display').style.display='none'
+	document.getElementById('movie_display').style.display='none';
 	target = event.target;
 	var id = target.id
 	console.log(id);

@@ -1,5 +1,9 @@
 var searchStr = '/movie?movie=';
 var movie_id;
+function topF() {
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
+}
 //example fetch 
 document.addEventListener("DOMContentLoaded", function(){
 	
@@ -498,11 +502,6 @@ document.addEventListener("DOMContentLoaded", function(){
 			alert(e);
 		}
 	});
-	
-	function topF() {
-		document.body.scrollTop = 0;
-		document.documentElement.scrollTop = 0;
-	}
 	
 	async function authentication(event){
 		try{

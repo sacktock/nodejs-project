@@ -1,2 +1,54 @@
-## Summative Assignment 2 2018-19
-'single page' app with a node-js server to request and send data.
+COMP1101 Programming Summative Assessment 2 2018-19
+===================================================
+
+Server Side
+===========
+
+project by clvp22, Durham University.
+
+Prelims
+-------
+
+This webpage uses an external web api TMDb, so to make the most out of this webpage please create an account at https://www.themoviedb.org/account/signup 
+or use my dummy account ... but bear in mind other people may have used it before. You can also access this link on the webpage itself through the create account button.
+This is important as it will help demonstrate the use of my POST requests.
+
+Running the server
+------------------
+
+Using comand and prompt please make youre way to this files directory, using cd and dir commands if necessary. Type 'npm install' into the command line and wait for the modules to install. 
+Then type 'npm start' to launch the server; ctrl^C will terminate the server at any time and if the server terminated for whatever reason type 'npm start' again to relaunch the server. 
+
+Accessing the webpage
+---------------------
+
+Access the webpage at the local address: http://127.0.0.1:8090
+
+Testing
+-------
+
+There is one test file 'app.test.js' to run the tests simply type 'npm test' into the command line.
+
+Console
+-------
+
+Things that appear on the console:
+ - **api requests** - when an api request is made (GET, POST or DELETE) the console will log 'api request at: {URL}'.
+ - **pagination** - when a new page of data is requested the console will log what page is attempting to be accessed 'acessing page {page number} ...'.
+ - **authentication** - when a new session is being posted the console will log 'token: {token}', 'approved: {approved}'.
+ - **POST request** - when a POST request is made to the api the console will log 'api request at: {URL}', 'body: {body}'.
+ - **error** - when an api error or a server side error occurs for whatever reason, the console will log ##edit app.js to make sure it logs errors and successes
+ 
+Using the webpage
+-----------------
+
+The rest of the information regarding using the actual website can be found in the client side README.md ... client/README.md
+
+License
+-------
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+
+
+
