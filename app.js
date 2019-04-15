@@ -396,7 +396,7 @@ app.get('/authentication/session/new', function(req,resp){
 			let x = JSON.parse(data);
 			if (x.success){
 				session_id = x.session_id;
-				console.log('Success, session created at:'session_id);
+				console.log('Success session created at:'+session_id);
 				
 				return resp.status(301).redirect('http://127.0.0.1:8090');
 			} else {
