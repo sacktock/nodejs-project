@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/trending');
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/person/popular');
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -88,14 +88,12 @@ document.addEventListener("DOMContentLoaded", function(){
 				let body = await response.text();
 				console.log('api fetch success...');
 				data = JSON.parse(body);
-				console.log(data);
 				genresDict = data;
 				x.innerHTML = '';
 				for (i in genresDict.genres){
 					x.innerHTML += '<a id = "'+genresDict.genres[i].id+'"class="w3-bar-item w3-button">'+genresDict.genres[i].name+'</a>';
 				}
 				var children = document.getElementById("genreAcc").children;
-				console.log(children);
 				for (var i = 0; i < children.length; i++){
 					children[i].addEventListener('click',async function(event){
 						resetGenre();
@@ -107,9 +105,8 @@ document.addEventListener("DOMContentLoaded", function(){
 						try{
 							let response = await fetch('http://127.0.0.1:8090/discover/genre?genre='+String(target.id));
 							let body = await response.text();
-							console.log('api fetch success...');
 							data = JSON.parse(body);
-							console.log(data)
+							console.log('api fetch success...');
 							display_query(data);
 						} catch(e) {
 							alert(e);
@@ -226,30 +223,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	
-	/*
-	var children = document.getElementById("disAcc").children;
-
-	for (var i = 0; i < children.length; i++){
-		children[i].addEventListener('click',async function(event){
-			resetDis();
-			var target = event.target;
-			var action = target.innerHTML;
-			target.className += ' w3-light-grey';
-			target.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>'+target.innerHTML;
-			console.log('DOM updated...')
-			searchStr = '/movie?movie='
-			try{
-				let response = await fetch('http://127.0.0.1:8090/discover/'+action);
-				let body = await response.text();
-				console.log('api fetch success...');
-				data = JSON.parse(body);
-				display_query(data);
-			} catch(e) {
-				alert(e);
-				}
-			});
-	}*/
-	
 	top_rated.addEventListener('click', async function(event){
 		resetDis();
 		top_rated.className += ' w3-light-grey';
@@ -260,8 +233,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/top_rated');
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -278,8 +251,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/popular');
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -296,8 +269,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/now_playing');
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -315,8 +288,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/upcoming');
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -336,8 +309,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			  alert('403 forbidden error: no active session');
 			}
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			console.log(e);
@@ -357,8 +330,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			  alert('403 forbidden error: no active session');
 			}
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			console.log(e);
@@ -382,7 +355,6 @@ document.addEventListener("DOMContentLoaded", function(){
 			let body = await response.text();
 			console.log('api fetch success...');
 			data = JSON.parse(body);
-			console.log(data);
 		} catch(e) {
 			alert(e);
 		}
@@ -393,23 +365,6 @@ document.addEventListener("DOMContentLoaded", function(){
 			alert('Failure to receive authentication token');
 		}
 	});
-	/*more_cast.addEventListener('click',async );
-	
-	more_crew.addEventListener('click',async function (event){
-		document.getElementById('person_display').style.display='none';
-		id = '1';
-		searchStr = '/person?person='
-		try{
-			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
-			let body = await response.text();
-			console.log('api fetch success...');
-			data = JSON.parse(body);
-			console.log(data)
-			display_query(data);
-		} catch(e) {
-			alert(e);
-		}
-	});*/
 	
 	function setup_rate(){
 		var x = document.getElementById('drop_down_rate');
@@ -444,9 +399,11 @@ document.addEventListener("DOMContentLoaded", function(){
 				if (fav){
 				favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
 				favourite.className = 'w3-button w3-red w3-right'; 
+				console.log('film marked as favourite');
 			  } else {
 				favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite';
 				favourite.className = 'w3-button w3-black w3-right';
+				console.log('film unmarked as favourite');
 			  }
 			}
 		} catch (e) {
@@ -461,8 +418,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/search'+searchStr+query);
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -476,8 +433,8 @@ document.addEventListener("DOMContentLoaded", function(){
 				console.log('404 not found error: page out of bounds')
 			} else {
 				let body = await response.text();
-				console.log('api fetch success...');
 				data = JSON.parse(body);
+				console.log('api fetch success...');
 				display_query(data);
 				topF();
 			}
@@ -493,8 +450,8 @@ document.addEventListener("DOMContentLoaded", function(){
 				console.log('404 not found error: page out of bounds')
 			} else {
 				let body = await response.text();
-				console.log('api fetch success...');
 				data = JSON.parse(body);
+				console.log('api fetch success...');
 				display_query(data);
 				topF();
 			}

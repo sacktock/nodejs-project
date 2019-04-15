@@ -37,7 +37,7 @@ Things that appear on the console:
  - **pagination** - when a new page of data is requested the console will log what page is attempting to be accessed 'acessing page {page number} ...'.
  - **authentication** - when a new session is being posted the console will log 'token: {token}', 'approved: {approved}'.
  - **POST request** - when a POST request is made to the api the console will log 'api request at: {URL}', 'body: {body}'.
- - **error** - when an api error or a server side error occurs for whatever reason, the console will log ##edit app.js to make sure it logs errors and successes
+ - **error** - when an api error or a server side error occurs for whatever reason, the console will log.
  
 Using the webpage
 -----------------

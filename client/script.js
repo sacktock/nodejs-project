@@ -5,13 +5,12 @@ async function display_movie(event){
 	var target = event.target;
 	var id = target.id;
 	movie_id = id;
-	console.log(id);
 	var data;
 	try{
 		let response = await fetch('http://127.0.0.1:8090/details/movie?id='+id);
 		let body = await response.text();
-		console.log('api fetch success...');
 		data = JSON.parse(body);
+		console.log('api fetch success...');
 		console.log(data)
 	} catch(e) {
 		alert(e);
@@ -73,8 +72,8 @@ async function display_movie(event){
 	try{
 		let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 		let body = await response.text();
-		console.log('api fetch success...');
 		data = JSON.parse(body);
+		console.log('api fetch success...');
 		console.log(data)
 	} catch(e) {
 		alert(e);
@@ -162,8 +161,8 @@ async function setRated(id){
 		  return
 		}
 		let body = await response.text();
-		console.log('api fetch success...');
 		data = JSON.parse(body);
+		console.log('api fetch success...');
 		pages = data.total_pages;
 	} catch(e) {
 		console.log(e);
@@ -185,8 +184,8 @@ async function setRated(id){
 				return
 			}
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 		} catch(e) {
 			console.log(e);
 			return
@@ -218,8 +217,8 @@ async function setFavourite(id){
 		  return
 		} else {
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
+			console.log('api fetch success...');
 			pages = data.total_pages;
 		}
 	} catch(e) {
@@ -242,8 +241,8 @@ async function setFavourite(id){
 				return
 			} else {
 				let body = await response.text();
-				console.log('api fetch success...');
 				data = JSON.parse(body);
+				console.log('api fetch success...');
 			}
 		} catch(e) {
 			console.log(e);
@@ -275,7 +274,6 @@ function open_genres(){
 async function similar_movies(event){
 		target = event.target;
 		var id = target.id;
-		console.log(id);
 		searchStr = '/movie?movie=';
 		document.getElementById('movie_display').style.display='none';
 		document.getElementById('find').click();
@@ -284,9 +282,8 @@ async function similar_movies(event){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/movie/similar?id='+id);
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
-			console.log(data)
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -304,9 +301,8 @@ async function more_film(event){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/person/find/movie?id='+id);
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
-			console.log(data)
+			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
@@ -324,9 +320,8 @@ async function more_film(event){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
-			console.log(data);
+			console.log('api fetch success...');
 			display_more(data,true);
 		} catch(e) {
 			alert(e);
@@ -344,9 +339,8 @@ async function more_film(event){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
-			console.log('api fetch success...');
 			data = JSON.parse(body);
-			console.log(data);
+			console.log('api fetch success...');
 			display_more(data,false);
 		} catch(e) {
 			alert(e);
@@ -406,7 +400,6 @@ function display_more(data,cast){
 			'</div>'+
 			'<p>'+name+'<br><b>'+role+'</b></p>'+
 		  '</div>');
-			console.log('Actor added to grid: '+obj.name);
 			
 			console.log('Object added to grid...');
 		};
@@ -417,13 +410,12 @@ async function display_person(event){
 	document.getElementById('movie_display').style.display='none';
 	target = event.target;
 	var id = target.id
-	console.log(id);
 	var data;
 	try{
 		let response = await fetch('http://127.0.0.1:8090/details/person?id='+id);
 		let body = await response.text();
-		console.log('api fetch success...');
 		data = JSON.parse(body);
+		console.log('api fetch success...');
 		console.log(data)
 	} catch(e) {
 		alert(e);
@@ -451,8 +443,8 @@ async function display_person(event){
 	try{
 		let response = await fetch('http://127.0.0.1:8090/details/person/movie/credits?id='+id);
 		let body = await response.text();
-		console.log('api fetch success...');
 		data = JSON.parse(body);
+		console.log('api fetch success...');
 		console.log(data);
 	} catch(e) {
 		alert(e);
@@ -512,8 +504,8 @@ async function spotlight(event){
 	try{
 		let response = await fetch('http://127.0.0.1:8090/discover/popular');
 		let body = await response.text();
-		console.log('api fetch success...');
 		data = JSON.parse(body);
+		console.log('api fetch success...');
 		console.log(data)
 	} catch(e) {
 		alert(e);
@@ -525,8 +517,8 @@ async function spotlight(event){
 	try{
 		let response = await fetch('http://127.0.0.1:8090/details/movie?id='+film.id);
 		let body = await response.text();
-		console.log('api fetch success...');
 		data = JSON.parse(body);
+		console.log('api fetch success...');
 		console.log(data)
 	} catch(e) {
 		alert(e);
@@ -574,6 +566,7 @@ async function rate_movie(event){
 				var rate = document.getElementById('rate');
 				rate.className = rate.className.replace('w3-black','w3-yellow');
 				rate.innerHTML = '<i class="fa fa-star checked"></i> <b> '+String(rating)+'</b>';
+				console.log('film rated');
 			}
 		} catch (e) {
 			alert (e);
@@ -598,6 +591,7 @@ async function delete_rating(event){
 				var rate = document.getElementById('rate');
 				rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
 				rate.className = 'w3-button w3-black w3-right';
+				console.log('rating deleted')
 			}
 		} catch (e) {
 			alert (e);
@@ -607,7 +601,6 @@ async function delete_rating(event){
 function hover_rate(event){
 	var id = event.target.id;
 	var x = parseInt(id.substring(4));
-	console.log(x);
 	document.getElementById('rating').innerHTML='<b>'+String(x)+'</b>';
 	for (i=1;i<11;i++){
 		var star = document.getElementById('rate'+String(i));
@@ -683,6 +676,5 @@ function hover_rate(event){
 			'</div>'+
 			'<p>'+name+'<br><b>'+title+'</b></p>'+
 		  '</div>');
-			console.log('Actor added to grid: '+obj.name);
 		}
 	}

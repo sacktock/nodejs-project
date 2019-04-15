@@ -42,8 +42,10 @@ app.get('/search/movie', function(req, resp){
 	console.log('api request at: '+getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data)
 	});
 });
@@ -59,8 +61,10 @@ app.get('/search/person', function(req, resp){
 	console.log('api request at: '+getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data)
 	});
 });
@@ -80,20 +84,25 @@ app.get('/page', function(req, resp){
 	console.log('api request at: '+getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
 		if (data){
 			if(JSON.parse(data).page < 1){
 				page = 1;
+				console.log('404 Not Found');
 				return resp.status(404).send('Not Found');
 			}
 			if (JSON.parse(data).page >JSON.parse(data).total_pages){
 				page = JSON.parse(data).total_pages;
+				console.log('404 Not Found');
 				return resp.status(404).send('Not Found');
 			}
+			console.log('Success');
 			resp.send(data);
 		} else {
 			page = 1;
+			console.log('404 Not Found');
 			resp.status(404).send('Not Found');
 		}
 	});
@@ -109,8 +118,10 @@ app.get('/details/movie', function(req,resp){
 	console.log('api request at: '+myAccessToken);
 	api_request(myAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data)
 	});
 });
@@ -126,8 +137,10 @@ app.get('/details/movie/credits', function(req,resp){
 	console.log('api request at: '+myAccessToken);
 	api_request(myAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data)
 	});
 });
@@ -142,8 +155,10 @@ app.get('/details/person', function(req,resp){
 	console.log('api request at: '+myAccessToken);
 	api_request(myAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data)
 	});
 });
@@ -159,8 +174,10 @@ app.get('/details/person/movie/credits', function(req,resp){
 	console.log('api request at: '+myAccessToken);
 	api_request(myAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data)
 	});
 });
@@ -173,8 +190,10 @@ app.get('/trending', function(req,resp){
 	console.log('api request at: '+getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -186,11 +205,11 @@ app.get('/genres', function(req,resp){
 	console.log('api request at: ' +myAccessToken);
 	api_request(myAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
-		genres = data.genres;
-		console.log(genres);
 	});
 });
 
@@ -204,8 +223,10 @@ app.get('/discover/genre', function(req,resp){
 	console.log('api request at: '+ getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -220,8 +241,10 @@ app.get('/person/find/movie', function(req,resp){
 	console.log('api request at: ' +getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -236,8 +259,10 @@ app.get('/movie/similar', function(req,resp){
 	console.log('api request at: ' +getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -249,8 +274,10 @@ app.get('/discover/top_rated', function(req,resp){
 	console.log('api request at: '+ getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -262,8 +289,10 @@ app.get('/discover/popular', function(req,resp){
 	console.log('api request at: '+ getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -275,8 +304,10 @@ app.get('/discover/now_playing', function(req,resp){
 	console.log('api request at: '+ getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -288,8 +319,10 @@ app.get('/discover/upcoming', function(req,resp){
 	console.log('api request at: '+ getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -301,8 +334,10 @@ app.get('/person/popular', function(req,resp){
 	console.log('api request at: ' +getAccessToken);
 	api_request(getAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
+		console.log('Success');
 		resp.send(data);
 	});
 });
@@ -316,9 +351,10 @@ app.get('/authentication/token/new', function(req,resp){
 	console.log('api request at: '+myAccessToken);
 	api_request(myAccessToken, function(err,data){
 		if (err) {
+			console.log(err);
 			return resp.send(err);
 		}
-		guest =false;
+		console.log('Success');
 		resp.send(data);
 	});
 	
@@ -335,7 +371,6 @@ function post_request(URL,body, callback){
 		}, function(error,response,body){
 			if (!error && response.statusCode == 200) {
 				result = JSON.stringify(JSON.parse(body)); 
-				console.log(result);
 				return callback(false,result);
 			} else {            
 				return callback(error,null);
@@ -355,20 +390,23 @@ app.get('/authentication/session/new', function(req,resp){
 	if (approved){
 		post_request(myAccessToken,body, function(err,data){
 			if (err) {
+				console.log(err);
 				return resp.send(err);
 			}
 			let x = JSON.parse(data);
 			if (x.success){
 				session_id = x.session_id;
-				console.log(session_id);
+				console.log('Success, session created at:'session_id);
 				
 				return resp.status(301).redirect('http://127.0.0.1:8090');
 			} else {
+				console.log('401 Unauthorized');
 				return resp.status(401).send('401 unauthorized error: failure to create session return to http://127.0.0.1:8090')
 			}
 			
 		});
 	} else {
+		console.log('401 Unauthorized');
 		resp.status(401).send('401 unauthorized error: user failed to accept authentication request return to http://127.0.0.1:8090')
 	}
 });
@@ -394,11 +432,14 @@ app.post('/movie/rate', function(req,resp){
 		console.log('api request at: '+myAccessToken, 'body: '+body);
 		post_request(myAccessToken,body, function(err,data){
 			if (err){
+				console.log(err);
 				return resp.send(err);
 			}
+			console.log('Success');
 			resp.status(200).send('ok');
 		});
 	} else {
+		console.log('403 Forbidden');
 		resp.status(403).send('No active session');
 	}
 });
@@ -408,7 +449,6 @@ function delete_request(URL, callback){
 	request.delete(URL,
 		function(error,response,body){
 			if (!error && response.statusCode == 200) {
-				console.log(response);
 				return callback(false,response);
 			} else {            
 				return callback(error,null);
@@ -429,11 +469,14 @@ app.delete('/movie/rate/delete', function(req,resp){
 		console.log('api request at: '+myAccessToken);
 		delete_request(myAccessToken, function(err,data){
 			if(err){
+				console.log(err);
 				return resp.send(err);
 			}
+			console.log('Success');
 			resp.status(200).send('ok');
 		});
 	} else {
+		console.log('403 Forbidden');
 		resp.status(403).send('No active session');
 	}
 });
@@ -459,11 +502,14 @@ app.post('/movie/favourite', function(req,resp){
 		console.log('api request at: '+myAccessToken, 'body: '+ body);
 		post_request(myAccessToken,body, function(err,data){
 			if (err){
+				console.log(err);
 				return resp.send(err);
 			}
+			console.log('Success');
 			resp.status(200).send('ok');
 		});
 	} else {
+		console.log('403 Forbidden');
 		resp.status(403).send('No active session');
 	}
 });
@@ -487,11 +533,14 @@ app.get('/account/favourite',function(req,resp){
 		console.log('api request at: '+getAccessToken);
 		api_request(getAccessToken, function(err,data){
 			if (err) {
+				console.log(err);
 				return resp.send(err);
 			}
+			console.log('Success');
 			resp.send(data);
 		});
 	} else {
+		console.log('403 Forbidden');
 		resp.status(403).send('No active session');
 	}
 });
@@ -514,11 +563,14 @@ app.get('/account/rated',function(req,resp){
 		console.log('api request at: '+getAccessToken);
 		api_request(getAccessToken, function(err,data){
 			if (err) {
+				console.log(err);
 				return resp.send(err);
 			}
+			console.log('Success');
 			resp.send(data);
 		});
 	} else {
+		console.log('403 Forbidden');
 		resp.status(403).send('No active session');
 	}
 });
