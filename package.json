@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "node server.js"
-  },
+    "start": "node server.js",
+	"dev": "nodemon index.js" },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sacktock/node-js-summative.git"

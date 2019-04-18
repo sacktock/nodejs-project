@@ -4,7 +4,6 @@ function topF() {
 	document.body.scrollTop = 0;
 	document.documentElement.scrollTop = 0;
 }
-//example fetch 
 document.addEventListener("DOMContentLoaded", function(){
 	
 	var search = document.getElementById('search');

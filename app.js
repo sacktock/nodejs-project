@@ -15,7 +15,7 @@ var getAccessToken;
 var page;
 var genres;
 var session_id;
-var guest;
+const guest = false;
 
 /////////////////////////////////
 // function to make a GET api request with a callback 
@@ -372,8 +372,9 @@ function post_request(URL,body, callback){
 			if (!error && response.statusCode == 200) {
 				result = JSON.stringify(JSON.parse(body)); 
 				return callback(false,result);
-			} else {            
-				return callback(error,null);
+			} else {     
+				result = JSON.stringify(JSON.parse(body)); 			
+				return callback(error,result);
 			}
 		});
 }
@@ -397,8 +398,7 @@ app.get('/authentication/session/new', function(req,resp){
 			if (x.success){
 				session_id = x.session_id;
 				console.log('Success session created at:'+session_id);
-				
-				return resp.status(301).redirect('http://127.0.0.1:8090');
+				return resp.status(302).redirect('http://127.0.0.1:8090');
 			} else {
 				console.log('401 Unauthorized');
 				return resp.status(401).send('401 unauthorized error: failure to create session return to http://127.0.0.1:8090')
@@ -573,6 +573,32 @@ app.get('/account/rated',function(req,resp){
 		console.log('403 Forbidden');
 		resp.status(403).send('No active session');
 	}
+});
+
+app.get('/authentication/token/remote', function(req,resp){
+	var request_token = req.query.request_token;
+	myAccessToken = 'https://api.themoviedb.org/3/authentication/token/validate_with_login?'+
+	api_key;
+	body = '{'+
+			'"username": "sacktock",'+
+			'"password": "agdego44",'+
+			'"request_token": "'+ request_token+'"'+
+			'}'
+	post_request(myAccessToken,body, function(err,data){
+			if (err) {
+				console.log(err);
+				return resp.send(err);
+			}
+			let x = JSON.parse(data);
+			if (x.success){
+				console.log('Success token remotely validated');
+				return resp.status(200).send('ok');
+			} else {
+				console.log('401 Unauthorized');
+				return resp.status(401).send('401 unauthorized error: failure to create session return to http://127.0.0.1:8090')
+			}
+			
+		});
 });
 
 
