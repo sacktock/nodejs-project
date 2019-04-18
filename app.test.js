@@ -3,6 +3,8 @@ const request = require('supertest');
 const app = require('./app');
 var request_token;
 
+//This test file covers 100% of the functions and ~82% of the lines in app.js, 
+//some of the uncovered lines can't be tested because to test them we need to assume the web api fails which we can't, we assume it never fails instead
 function isGlass(resp){
 	const jContent = JSON.parse(resp.text);
 	
@@ -95,7 +97,6 @@ describe('Test movie service', () => {
 		//expect the movie glass
     });
 	
-	
 	test('GET /search/person succeeds', () => {
 		return request(app)
 		.get('/search/person?person=sean bean')
@@ -110,8 +111,21 @@ describe('Test movie service', () => {
 		//expect sean bean
     });
 	
-	//page tests.....
-	//pagination ....
+	/////////////////////////////////////////
+	//we should only have one page when searching for sean bean so next and prev pages should fail
+	test('GET /page prev page fails', () => {
+		return request(app)
+		.get('/page?next=0')
+		.expect(404);
+	});
+	
+	test('GET /page next page fails', () => {
+		return request(app)
+		.get('/page?next=1')
+		.expect(404);
+	});
+	/////////////////////////////////////////
+	
 	
 	test('GET /details/movie succeeds', () => {
 		return request(app)
@@ -208,6 +222,33 @@ describe('Test movie service', () => {
 		.get('/trending')
 		.expect('Content-type', "text/html; charset=utf-8");
 	});
+	
+	/////////////////////////
+	//trending will return alot of pages so next and prev page should not fail
+	test('GET /page next page succeeds', () => {
+		return request(app)
+		.get('/page?next=1')
+		.expect(200);
+	});
+	
+	test('GET /page next page return text', () => {
+		return request(app)
+		.get('/page?next=1')
+		.expect('Content-type', "text/html; charset=utf-8");
+	});
+	
+	test('GET /page prev page succeeds', () => {
+		return request(app)
+		.get('/page?next=0')
+		.expect(200);
+	});
+	
+	test('GET /page prev page return text', () => {
+		return request(app)
+		.get('/page?next=0')
+		.expect('Content-type', "text/html; charset=utf-8");
+	});
+	//////////////////////
 	
 	test('GET /genres succeeds', () =>{
 		return request(app)
@@ -405,6 +446,8 @@ describe('Test authentication service', () => {
 		.expect(401);
 	});
 	
+	// /authentication/token/remote is never used in the webpage
+	// we just need a way of validating a request token remotely for testing purposes
 	test('GET /authentication/token/remote succeeds',() =>{
 		var token = request_token;
 		return request(app)

@@ -578,8 +578,8 @@ app.get('/authentication/token/remote', function(req,resp){
 	var myAccessToken = 'https://api.themoviedb.org/3/authentication/token/validate_with_login?'+
 	api_key;
 	var body = '{'+
-			'"username": "sacktock",'+
-			'"password": "agdego44",'+
+			'"username": "dummy49",'+
+			'"password": "password49",'+
 			'"request_token": "'+ request_token+'"'+
 			'}'
 	post_request(myAccessToken,body, function(err,data){
