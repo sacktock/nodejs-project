@@ -1,7 +1,7 @@
 
 
 async function display_movie(event){
-	document.getElementById('person_display').style.display='none'
+	document.getElementById('person_display').style.display='none';
 	var target = event.target;
 	var id = target.id;
 	movie_id = id;
@@ -11,7 +11,7 @@ async function display_movie(event){
 		let body = await response.text();
 		data = JSON.parse(body);
 		console.log('api fetch success...');
-		console.log(data)
+		console.log(data);
 	} catch(e) {
 		alert(e);
 	}
@@ -49,11 +49,11 @@ async function display_movie(event){
 		document.getElementById('poster').src=path;
 		document.getElementById('info').innerHTML='<b>Info:</b><br>Budget: '+data.budget+'$ <br> Revenue: '+ data.revenue+
 		'$ <br> Popularity: '+ data.popularity+' <br><i class="fa fa-globe fa-fw w3-margin-right w3-text-white"></i><a href="'
-		+data.homepage+'">'+data.homepage+'</a> '
+		+data.homepage+'">'+data.homepage+'</a> ';
 		//<br> Budget: '+data.budget+'$ <br> Revenue: '+ data.revenue+'$ <br> Popularity: '+ data.popularity+
 		var genres='<b>Genres:</b><br>';
 		for (i in data.genres){
-			var onclick = "document.getElementById('movie_display').style.display='none';document.getElementById('"+data.genres[i].id+"').click();open_genres();"
+			var onclick = "document.getElementById('movie_display').style.display='none';document.getElementById('"+data.genres[i].id+"').click();open_genres();";
 			genres += '<button class="w3-button w3-black" onclick="'+onclick+'">'+data.genres[i].name+'</button><br>';
 		}
 		document.getElementById('movie_genres').innerHTML=genres;
@@ -74,7 +74,7 @@ async function display_movie(event){
 		let body = await response.text();
 		data = JSON.parse(body);
 		console.log('api fetch success...');
-		console.log(data)
+		console.log(data);
 	} catch(e) {
 		alert(e);
 	}
@@ -145,7 +145,7 @@ async function display_movie(event){
 		
 	}
 	//show movie
-	document.getElementById('movie_display').style.display='block'
+	document.getElementById('movie_display').style.display='block';
 	document.getElementById('movie_display').scrollTop=0;
 		
 		////////////////////////////////////////////////
@@ -158,7 +158,7 @@ async function setRated(id){
 		let response = await fetch('http://127.0.0.1:8090/account/rated');
 		if(!response.ok){
 		  console.log('403 forbidden error: no active session');
-		  return
+		  return;
 		}
 		let body = await response.text();
 		data = JSON.parse(body);
@@ -166,7 +166,7 @@ async function setRated(id){
 		pages = data.total_pages;
 	} catch(e) {
 		console.log(e);
-		return
+		return;
 	}
 	for (i in data.results){
 		if (id == data.results[i].id){
@@ -181,14 +181,14 @@ async function setRated(id){
 			let response = await fetch('http://127.0.0.1:8090/page?next=1');
 			if(!response.ok){
 				console.log('404 not found error: no more pages');
-				return
+				return;
 			}
 			let body = await response.text();
 			data = JSON.parse(body);
 			console.log('api fetch success...');
 		} catch(e) {
 			console.log(e);
-			return
+			return;
 		}
 		for (i in data.results){
 			if (rating){break;}
@@ -214,7 +214,7 @@ async function setFavourite(id){
 		let response = await fetch('http://127.0.0.1:8090/account/favourite');
 		if(!response.ok){
 		  console.log('403 forbidden error: no active session');
-		  return
+		  return;
 		} else {
 			let body = await response.text();
 			data = JSON.parse(body);
@@ -223,11 +223,11 @@ async function setFavourite(id){
 		}
 	} catch(e) {
 		console.log(e);
-		return
+		return;
 	}
 	for (i in data.results){
 		if (id == data.results[i].id){
-			isFavourite= true
+			isFavourite= true;
 			break;
 		}
 	}
@@ -238,7 +238,7 @@ async function setFavourite(id){
 			let response = await fetch('http://127.0.0.1:8090/page?next=1');
 			if(!response.ok){
 				console.log('404 not found error: no more pages');
-				return
+				return;
 			} else {
 				let body = await response.text();
 				data = JSON.parse(body);
@@ -250,7 +250,7 @@ async function setFavourite(id){
 		}
 		for (i in data.results){
 			if (id == data.results[i].id){
-				isFavourite= true
+				isFavourite= true;
 				break;
 			}
 		}
@@ -356,10 +356,10 @@ function display_more(data,cast){
 		var list;
 		if (cast){
 			list = data.cast;
-			number.innerHTML = data.cast.length + ' items...'
+			number.innerHTML = data.cast.length + ' items...';
 		} else {
 			list= data.crew;
-			number.innerHTML = data.crew.length + ' items...'
+			number.innerHTML = data.crew.length + ' items...';
 		}
 		for (i in list){
 			obj = list[i];
@@ -369,18 +369,18 @@ function display_more(data,cast){
 			if (cast){
 				role = 'Plays '+ obj.character;
 			} else {
-				role = obj.job
+				role = obj.job;
 			}
 			
 			var name = obj.name;
 			if (role){
 				if (role.length > 31){
-				role = role.substring(0,28)+'...'
+				role = role.substring(0,28)+'...';
 				}
 			}
 			if (name){
 				if (name.length > 21){
-				name = name.substring(0,18)+'...'
+				name = name.substring(0,18)+'...';
 				}
 			}
 			if (path){
@@ -409,14 +409,14 @@ function display_more(data,cast){
 async function display_person(event){
 	document.getElementById('movie_display').style.display='none';
 	target = event.target;
-	var id = target.id
+	var id = target.id;
 	var data;
 	try{
 		let response = await fetch('http://127.0.0.1:8090/details/person?id='+id);
 		let body = await response.text();
 		data = JSON.parse(body);
 		console.log('api fetch success...');
-		console.log(data)
+		console.log(data);
 	} catch(e) {
 		alert(e);
 	}
@@ -437,7 +437,7 @@ async function display_person(event){
 			death = '<br>Died: '+data.deathday;
 		}
 		document.getElementById('about').innerHTML='Born: '+data.birthday+', '+data.place_of_birth+death+'.<br>'+data.biography;
-		document.getElementById('more_film').innerHTML='<button class="w3-button w3-black" style="margin-left:24px" onclick="more_film(event)" id="'+data.id+'" >more...</button>'
+		document.getElementById('more_film').innerHTML='<button class="w3-button w3-black" style="margin-left:24px" onclick="more_film(event)" id="'+data.id+'" >more...</button>';
 	}
 	data = null;
 	try{
@@ -506,7 +506,7 @@ async function spotlight(event){
 		let body = await response.text();
 		data = JSON.parse(body);
 		console.log('api fetch success...');
-		console.log(data)
+		console.log(data);
 	} catch(e) {
 		alert(e);
 	}
@@ -519,7 +519,7 @@ async function spotlight(event){
 		let body = await response.text();
 		data = JSON.parse(body);
 		console.log('api fetch success...');
-		console.log(data)
+		console.log(data);
 	} catch(e) {
 		alert(e);
 	}
@@ -591,7 +591,7 @@ async function delete_rating(event){
 				var rate = document.getElementById('rate');
 				rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
 				rate.className = 'w3-button w3-black w3-right';
-				console.log('rating deleted')
+				console.log('rating deleted');
 			}
 		} catch (e) {
 			alert (e);
@@ -660,10 +660,10 @@ function hover_rate(event){
 				profile_path ='/img/film-poster-placeholder.png';
 			}
 			if (title.length > 31){
-				title = title.substring(0,28)+'...'
+				title = title.substring(0,28)+'...';
 			}
 			if (name.length > 21){
-				name = name.substring(0,18)+'...'
+				name = name.substring(0,18)+'...';
 			}
 			content.innerHTML += (
 			'<div class="w3-col l3 s6">'+

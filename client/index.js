@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	trending.addEventListener('click', async function(event){
 		resetAll();
 		trending.className += ' w3-white';
-		header.innerHTML = 'Trending'
+		header.innerHTML = 'Trending';
 		closeAll();
-		console.log('DOM updated...')
-		searchStr = '/movie?movie='
+		console.log('DOM updated...');
+		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/trending');
 			let body = await response.text();
@@ -56,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	actors.addEventListener('click', async function(event){
 		resetAll();
 		actors.className += ' w3-white';
-		header.innerHTML = 'People'
+		header.innerHTML = 'People';
 		closeAll();
-		console.log('DOM updated...')
-		searchStr = '/person?person='
+		console.log('DOM updated...');
+		searchStr = '/person?person=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/person/popular');
 			let body = await response.text();
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	genres.addEventListener('click', async function(event){
 		resetAll();
 		genres.className += ' w3-white';
-		header.innerHTML = 'Genres'
+		header.innerHTML = 'Genres';
 		closeAll();
 		genreAccFunc();
 	});
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function(){
 					children[i].addEventListener('click',async function(event){
 						resetGenre();
 						target = event.target;
-						searchStr = '/movie?movie='
+						searchStr = '/movie?movie=';
 						target.className += ' w3-light-grey';
 						header.innerHTML = 'Genres - '+ target.innerHTML;
 						target.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>'+target.innerHTML;
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	discover.addEventListener('click', function(){
 		resetAll();
 		discover.className += ' w3-white';
-		header.innerHTML = 'Discover'
+		header.innerHTML = 'Discover';
 		closeAll();
 		disAccFunc();
 	});
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	function disAccFunc() {
 	  var x = document.getElementById("disAcc");
 	  if (x.className.indexOf("w3-show") == -1) {
-		discover.innerHTML = 'Discover <i class="fa fa-caret-down"></i>'
+		discover.innerHTML = 'Discover <i class="fa fa-caret-down"></i>';
 		x.className += " w3-show";
 	  } else {
 		x.className = x.className.replace(" w3-show", "");
@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		top_rated.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Top Rated';
 		top_rated.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Top Rated';
-		console.log('DOM updated...')
+		console.log('DOM updated...');
 		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/top_rated');
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		popular.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Popular';
 		popular.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Popular';
-		console.log('DOM updated...')
+		console.log('DOM updated...');
 		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/popular');
@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		now_playing.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Now Playing';
 		now_playing.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Now Playing';
-		console.log('DOM updated...')
+		console.log('DOM updated...');
 		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/now_playing');
@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		upcoming.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Upcoming';
 		upcoming.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Upcoming';
-		console.log('DOM updated...')
+		console.log('DOM updated...');
 		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/upcoming');
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		ratedBy.className += ' w3-light-grey';
 		header.innerHTML = 'You - Rated';
 		ratedBy.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Rated by you';
-		console.log('DOM updated...')
+		console.log('DOM updated...');
 		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/account/rated');
@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		favouriteY.className += ' w3-light-grey';
 		header.innerHTML = 'You - Favourite';
 		favouriteY.innerHTML = '<i class="fa fa-caret-right w3-margin-right"></i>Favourite';
-		console.log('DOM updated...')
+		console.log('DOM updated...');
 		searchStr = '/movie?movie=';
 		try{
 			let response = await fetch('http://127.0.0.1:8090/account/favourite');
@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		for (i=0;i<10;i++){
 			x.innerHTML += '<a class="w3-button w3-black w3-small fa fa-star checked" id="rate'+String(i+1)+'" onmouseover="hover_rate(event)" onclick="rate_movie(event)"></a>';
 		}
-		x.innerHTML+='<a class="w3-button w3-red w3-small fa fa-ban" id="delete" onclick="delete_rating()"></a>'
+		x.innerHTML+='<a class="w3-button w3-red w3-small fa fa-ban" id="delete" onclick="delete_rating()"></a>';
 		
 	};
 	
@@ -429,7 +429,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=1');
 			if (!response.ok){
-				console.log('404 not found error: page out of bounds')
+				console.log('404 not found error: page out of bounds');
 			} else {
 				let body = await response.text();
 				data = JSON.parse(body);
@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=0');
 			if (!response.ok){
-				console.log('404 not found error: page out of bounds')
+				console.log('404 not found error: page out of bounds');
 			} else {
 				let body = await response.text();
 				data = JSON.parse(body);
