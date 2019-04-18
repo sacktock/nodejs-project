@@ -28,7 +28,7 @@ Testing
 -------
 
 There is one test file 'app.test.js' to run the tests simply type 'npm test' into the command line. Bear in mind that some of the tests may fail because of the api web service, and if the 'GET /authentication/session/new redirect succeeds' test fails then most of the tests in the 'Test account services' section will also fail because the authentication has not worked. 
-To test with eslint type 'npm run lint' into the command line.
+To test with eslint type 'npm run lint' into the command line, this is a directory wide test and will test the client side javascript aswell.
 
 Console
 -------

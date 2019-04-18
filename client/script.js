@@ -1,10 +1,10 @@
 
-
-async function display_movie(event){
+/* eslint-disable no-console */
+async function display_movie(event){ // eslint-disable-line
 	document.getElementById('person_display').style.display='none';
 	var target = event.target;
 	var id = target.id;
-	movie_id = id;
+	movie_id = id; // eslint-disable-line
 	var data;
 	try{
 		let response = await fetch('http://127.0.0.1:8090/details/movie?id='+id);
@@ -23,7 +23,7 @@ async function display_movie(event){
 			document.getElementById('backdrop').src='https://image.tmdb.org/t/p/original'+data.backdrop_path;
 		}
 		var languages = '';
-		for (i in data.spoken_languages){
+		for (var i in data.spoken_languages){
 			languages += data.spoken_languages[i].iso_639_1+' ';
 		}
 		document.getElementById('caption').innerHTML='<b>'+data.release_date+' | '+ 
@@ -81,10 +81,10 @@ async function display_movie(event){
 		
 	if (data){
 		var container = document.getElementById('cast_container');
-		var onclick='display_person(event)';
+		onclick='display_person(event)';
 		var role;
 		var name;
-		var path;
+		path;
 		container.innerHTML='';
 		for (i=0;i<8 && i < data.cast.length;i++){
 			role = data.cast[i].character;
@@ -102,18 +102,18 @@ async function display_movie(event){
 				path = '/img/film-poster-placeholder.png';
 			}
 			container.innerHTML +='<div class="w3-col l3 s6">'+
-			  '<div class="w3-container">'+
-			  '<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
-			  '<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+data.cast[i].id+'">View</button>'+
-			  '</div>'+
-				'</div>'+
-				'<p>'+role+'<br><b>'+name+'</b></p>'+
-			  '</div>'+
-			'</div>';
+				'<div class="w3-container">'+
+					'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+						'<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
+						'<div class="w3-display-middle w3-display-hover">'+
+							'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+data.cast[i].id+'">View</button>'+
+						'</div>'+
+					'</div>'+
+						'<p>'+role+'<br><b>'+name+'</b></p>'+
+					'</div>'+
+				'</div>';
 		}
-		var container = document.getElementById('crew_container');
+		container = document.getElementById('crew_container');
 		container.innerHTML='';
 		for (i=0;i<4 && i < data.crew.length;i++){
 			role = data.crew[i].job;
@@ -131,15 +131,15 @@ async function display_movie(event){
 				path = '/img/film-poster-placeholder.png';
 			}
 			container.innerHTML +='<div class="w3-col l3 s6">'+
-			  '<div class="w3-container">'+
-			  '<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
-			  '<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+data.crew[i].id+'">View</button>'+
-			  '</div>'+
-			  '</div>'+
-			  '<p>'+data.crew[i].job+'<br><b>'+data.crew[i].name+'</b></p>'+
-			  '</div>'+
+				'<div class="w3-container">'+
+					'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+					'<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
+					'<div class="w3-display-middle w3-display-hover">'+
+						'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+data.crew[i].id+'">View</button>'+
+					'</div>'+
+				'</div>'+
+				'<p>'+data.crew[i].job+'<br><b>'+data.crew[i].name+'</b></p>'+
+				'</div>'+
 			'</div>';
 		}
 		
@@ -157,18 +157,18 @@ async function setRated(id){
 	try{
 		let response = await fetch('http://127.0.0.1:8090/account/rated');
 		if(!response.ok){
-		  console.log('403 forbidden error: no active session');
-		  return;
+			console.log('403 forbidden error: no active session');
+			return;
 		}
 		let body = await response.text();
-		data = JSON.parse(body);
+		var data = JSON.parse(body);
 		console.log('api fetch success...');
 		pages = data.total_pages;
 	} catch(e) {
 		console.log(e);
 		return;
 	}
-	for (i in data.results){
+	for (var i in data.results){
 		if (id == data.results[i].id){
 			rating = data.results[i].rating;
 			break;
@@ -213,8 +213,8 @@ async function setFavourite(id){
 	try{
 		let response = await fetch('http://127.0.0.1:8090/account/favourite');
 		if(!response.ok){
-		  console.log('403 forbidden error: no active session');
-		  return;
+			console.log('403 forbidden error: no active session');
+			return;
 		} else {
 			let body = await response.text();
 			data = JSON.parse(body);
@@ -248,7 +248,7 @@ async function setFavourite(id){
 			console.log(e);
 			return
 		}
-		for (i in data.results){
+		for (var i in data.results){
 			if (id == data.results[i].id){
 				isFavourite= true;
 				break;
@@ -263,26 +263,26 @@ async function setFavourite(id){
 	}
 }
  
-function open_genres(){
+function open_genres(){ //eslint-disable-line
 	var x = document.getElementById("genreAcc");
 	var genres = document.getElementById('genres');
-	  if (x.className.indexOf("w3-show") == -1) {
-		genres.innerHTML = 'Genres <i class="fa fa-caret-down"></i>';
-		x.className += " w3-show";
+		if (x.className.indexOf("w3-show") == -1) {
+			genres.innerHTML = 'Genres <i class="fa fa-caret-down"></i>';
+			x.className += " w3-show";
 	}
 }
-async function similar_movies(event){
-		target = event.target;
+async function similar_movies(event){ //eslint-disable-line
+		var target = event.target;
 		var id = target.id;
-		searchStr = '/movie?movie=';
+		searchStr = '/movie?movie='; //eslint-disable-line
 		document.getElementById('movie_display').style.display='none';
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Similar films';
-		topF();
+		topF(); //eslint-disable-line
 		try{
 			let response = await fetch('http://127.0.0.1:8090/movie/similar?id='+id);
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
@@ -290,37 +290,37 @@ async function similar_movies(event){
 		}
 }
 
-async function more_film(event){
+async function more_film(event){ //eslint-disable-line
 		document.getElementById('person_display').style.display='none';
-		target = event.target;
+		var target = event.target;
 		var id = target.id;
-		searchStr = '/movie?movie=';
+		searchStr = '/movie?movie='; //eslint-disable-line
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('name').innerHTML+' - Films';
-		topF();
+		topF(); //eslint-disable-line
 		try{
 			let response = await fetch('http://127.0.0.1:8090/person/find/movie?id='+id);
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
 			display_query(data);
 		} catch(e) {
 			alert(e);
 		}
-	};
+	}
 	
-	async function more_cast(event){
+	async function more_cast(event){ //eslint-disable-line
 		document.getElementById('movie_display').style.display='none';
-		target = event.target;
+		var target = event.target;
 		var id = target.id;
-		searchStr = '/person?person=';
+		searchStr = '/person?person='; //eslint-disable-line
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Cast';
-		topF();
+		topF(); //eslint-disable-line
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
 			display_more(data,true);
 		} catch(e) {
@@ -328,18 +328,18 @@ async function more_film(event){
 		}
 	}
 	
-	async function more_crew(event){
+	async function more_crew(event){ //eslint-disable-line
 		document.getElementById('movie_display').style.display='none';
-		target = event.target;
+		var target = event.target;
 		var id = target.id;
-		searchStr = '/person?person=';
+		searchStr = '/person?person='; //eslint-disable-line
 		document.getElementById('find').click();
 		document.getElementById('header').innerHTML = 'Find - '+ document.getElementById('title').innerHTML+' - Crew';
-		topF();
+		topF(); //eslint-disable-line
 		try{
 			let response = await fetch('http://127.0.0.1:8090/details/movie/credits?id='+id);
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
 			display_more(data,false);
 		} catch(e) {
@@ -361,8 +361,8 @@ function display_more(data,cast){
 			list= data.crew;
 			number.innerHTML = data.crew.length + ' items...';
 		}
-		for (i in list){
-			obj = list[i];
+		for (var i in list){
+			var obj = list[i];
 			var onclick="display_person(event)";
 			var role;
 			var path = obj.profile_path;
@@ -393,22 +393,22 @@ function display_more(data,cast){
 			'<div class="w3-col l3 s6">'+
 			'<div class="w3-container">'+
 			'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
-			  '<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
-			  '</div>'+
+				'<img src="'+path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
+				'<div class="w3-display-middle w3-display-hover">'+
+					'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
+				'</div>'+
 			'</div>'+
-			'<p>'+name+'<br><b>'+role+'</b></p>'+
-		  '</div>');
+				'<p>'+name+'<br><b>'+role+'</b></p>'+
+			'</div>');
 			
 			console.log('Object added to grid...');
-		};
+		}
 		console.log('data added...');
 	}
 
-async function display_person(event){
+async function display_person(event){ //eslint-disable-line
 	document.getElementById('movie_display').style.display='none';
-	target = event.target;
+	var target = event.target;
 	var id = target.id;
 	var data;
 	try{
@@ -454,8 +454,8 @@ async function display_person(event){
 		var container = document.getElementById('film_container');
 		container.innerHTML='';
 		var onclick = 'display_movie(event)';
-		for (i=0;i<8;i++){
-			var path;
+		for (var i=0;i<8;i++){
+			path;
 			var movie_id;
 			var role;
 			var title;
@@ -482,15 +482,15 @@ async function display_person(event){
 				path = '/img/film-poster-placeholder.png';
 			}
 			container.innerHTML +='<div class="w3-col l3 s6">'+
-			  '<div class="w3-container">'+
-			  '<p>'+role+', in<br><b>'+title+'</b></p>'+
-			  '<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
-			  '<img src='+path+' style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+movie_id+'">View</button>'+
-			  '</div>'+
-			  '</div>'+
-			'</div>'+
+				'<div class="w3-container">'+
+					'<p>'+role+', in<br><b>'+title+'</b></p>'+
+					'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
+						'<img src='+path+' style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
+						'<div class="w3-display-middle w3-display-hover">'+
+							'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+movie_id+'">View</button>'+
+						'</div>'+
+					'</div>'+
+				'</div>'+
 			'</div>';
 		}
 	}
@@ -498,7 +498,7 @@ async function display_person(event){
 
 
 
-async function spotlight(event){
+async function spotlight(){ //eslint-disable-line
 	var data;
 	var film;
 	try{
@@ -535,33 +535,33 @@ async function spotlight(event){
 function display_query(data){
 	var number = document.getElementById('number');
 	var content = document.getElementById('content');
-		results = data.results;
+		var results = data.results;
 		console.log(data);
 		content.innerHTML = '';
-		for (i in results){
+		for (var i in results){
 			addGrid(results[i]);
 			console.log('Object added to grid...');
-		};
+		}
 		number.innerHTML = data.total_results + ' items, '+data.total_pages+' pages... page '+data.page;
 		console.log('data added...');
 	}
 	
-async function rate_movie(event){
+async function rate_movie(event){ //eslint-disable-line
 		var rating = parseInt(event.target.id.substring(4));
-		var id = movie_id;
+		var id = movie_id; //eslint-disable-line
 		
 		console.log('Rating: '+ rating);
 		try{
 			let response = await fetch('http://127.0.01:8090/movie/rate',
-									   {
-										 method: "POST",
-										 headers: {
-										   "Content-Type": "application/x-www-form-urlencoded"
-										 },
-										 body: "value=" + rating+'&id='+id
-									   });
+										{
+											method: "POST",
+											headers: {
+												"Content-Type": "application/x-www-form-urlencoded"
+											},
+											body: "value=" + rating+'&id='+id
+										});
 			if(!response.ok){
-			  alert('403 forbidden error: no active session');
+				alert('403 forbidden error: no active session');
 			} else {
 				var rate = document.getElementById('rate');
 				rate.className = rate.className.replace('w3-black','w3-yellow');
@@ -573,20 +573,20 @@ async function rate_movie(event){
 		}
 	}
 
-async function delete_rating(event){
-		var id = movie_id;
+async function delete_rating(){ //eslint-disable-line
+		var id = movie_id; //eslint-disable-line
 		//delete rating
 		try{
 			let response = await fetch('http://127.0.01:8090/movie/rate/delete',
-									   {
-										 method: "DELETE",
-										 headers: {
-										   "Content-Type": "application/x-www-form-urlencoded"
-										 },
-										 body: 'id='+id
-									   });
+										{
+											method: "DELETE",
+											headers: {
+												"Content-Type": "application/x-www-form-urlencoded"
+											},
+											body: 'id='+id
+										});
 			if(!response.ok){
-			  alert('403 forbidden error: no active session');
+				alert('403 forbidden error: no active session');
 			} else {
 				var rate = document.getElementById('rate');
 				rate.innerHTML = '<i class="fa fa-star checked"></i> Rate'; //or otherwise if show is rated..
@@ -598,16 +598,16 @@ async function delete_rating(event){
 		}
 	}
 
-function hover_rate(event){
+function hover_rate(event){ //eslint-disable-line
 	var id = event.target.id;
 	var x = parseInt(id.substring(4));
 	document.getElementById('rating').innerHTML='<b>'+String(x)+'</b>';
-	for (i=1;i<11;i++){
+	for (var i=1;i<11;i++){
 		var star = document.getElementById('rate'+String(i));
 		star.className='w3-button w3-black w3-small fa fa-star checked';
 	}
 	for (i=10;i>x;i=i-1){
-		var star = document.getElementById('rate'+String(i));
+		star = document.getElementById('rate'+String(i));
 		star.className='w3-button w3-black w3-small fa fa-star-o';
 	}
 }
@@ -641,17 +641,17 @@ function hover_rate(event){
 			'<div class="w3-col l3 s6">'+
 			'<div class="w3-container">'+
 			'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
-			  '<img src="'+poster_path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
-			  tag+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
-			  '</div>'+
-			'</div>'+
-			'<p>'+title+'<br><b>'+obj.release_date+'</b></p>'+
-		  '</div>');
+				'<img src="'+poster_path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
+				tag+
+				'<div class="w3-display-middle w3-display-hover">'+
+					'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
+				'</div>'+
+				'</div>'+
+				'<p>'+title+'<br><b>'+obj.release_date+'</b></p>'+
+			'</div>');
 		} else { //actor
-			var onclick="display_person(event)";
-			var title = 'Known for '+ obj.known_for[0].title;
+			onclick="display_person(event)";
+			title = 'Known for '+ obj.known_for[0].title;
 			var name = obj.name;
 			var profile_path;
 			if (obj.profile_path){
@@ -669,12 +669,12 @@ function hover_rate(event){
 			'<div class="w3-col l3 s6">'+
 			'<div class="w3-container">'+
 			'<div class="w3-display-container" style="display: block;width: 100%;height: auto;position: relative;overflow: hidden;padding: 150% 0 0 0;">'+
-			  '<img src="'+profile_path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
-			  '<div class="w3-display-middle w3-display-hover">'+
-				'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
-			  '</div>'+
-			'</div>'+
-			'<p>'+name+'<br><b>'+title+'</b></p>'+
-		  '</div>');
+				'<img src="'+profile_path+'" style="display: block;max-width: 100%;max-height: 100%;position: absolute;top: 0;bottom: 0;left: 0;right: 0;">'+
+				'<div class="w3-display-middle w3-display-hover">'+
+					'<button class="w3-button w3-black" onclick="'+onclick+'" id="'+obj.id+'">View</button>'+
+				'</div>'+
+				'</div>'+
+				'<p>'+name+'<br><b>'+title+'</b></p>'+
+			'</div>');
 		}
 	}

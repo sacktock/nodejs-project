@@ -56,7 +56,7 @@ function isSeanBeanByID(resp){
 function hasAction(resp){
 	const jContent = JSON.parse(resp.text);
 	
-	for (i in jContent.results){
+	for (var i in jContent.results){
 		if (!jContent.results[i].genre_ids.includes(28)){
 			throw new Error('genre not consistent')
 		}
@@ -83,30 +83,30 @@ function isToken(resp){
 describe('Test movie service', () => {
 	test('GET /search/movie succeeds', () => {
 		return request(app)
-	    .get('/search/movie?movie=glass')
-	    .expect(200);
+		.get('/search/movie?movie=glass')
+		.expect(200);
 		//expect the movie glass
     });
 	
 	test('GET /search/movie returns text', () => {
 		return request(app)
-	    .get('/search/movie?movie=glass')
-	    .expect('Content-type', "text/html; charset=utf-8");
+		.get('/search/movie?movie=glass')
+		.expect('Content-type', "text/html; charset=utf-8");
 		//expect the movie glass
     });
 	
 	
 	test('GET /search/person succeeds', () => {
 		return request(app)
-	    .get('/search/person?person=sean bean')
-	    .expect(200);
+		.get('/search/person?person=sean bean')
+		.expect(200);
 		//expect sean bean
     });
 	
 	test('GET /search/person returns text', () => {
 		return request(app)
-	    .get('/search/person?person=sean bean')
-	    .expect('Content-type', "text/html; charset=utf-8");
+		.get('/search/person?person=sean bean')
+		.expect('Content-type', "text/html; charset=utf-8");
 		//expect sean bean
     });
 	
@@ -115,85 +115,85 @@ describe('Test movie service', () => {
 	
 	test('GET /details/movie succeeds', () => {
 		return request(app)
-	    .get('/details/movie?id=450465')
-	    .expect(200);
+		.get('/details/movie?id=450465')
+		.expect(200);
 		//expect the movie glass
     });
 	
 	test('GET /details/movie returns text', () => {
 		return request(app)
-	    .get('/details/movie?id=450465')
-	    .expect('Content-type', "text/html; charset=utf-8");
+		.get('/details/movie?id=450465')
+		.expect('Content-type', "text/html; charset=utf-8");
 		//expect the movie glass
     });
 	
 	test('GET /details/movie includes title', () => {
 		return request(app)
-	    .get('/details/movie?id=450465')
-	    .expect(isGlass);
+		.get('/details/movie?id=450465')
+		.expect(isGlass);
 		//expect the movie glass
     });
 	
 	test('GET /details/movie/credits succeeds', () => {
 		return request(app)
-	    .get('/details/movie/credits?id=450465')
-	    .expect(200);
+		.get('/details/movie/credits?id=450465')
+		.expect(200);
 		//expect the movie glass
     });
 	
 	test('GET /details/movie/credits returns text', () => {
 		return request(app)
-	    .get('/details/movie/credits?id=450465')
-	    .expect('Content-type', "text/html; charset=utf-8");
+		.get('/details/movie/credits?id=450465')
+		.expect('Content-type', "text/html; charset=utf-8");
 		//expect the movie glass
     });
 	
 	test('GET /details/movie/credits returns consistent id', () => {
 		return request(app)
-	    .get('/details/movie/credits?id=450465')
-	    .expect(isGlassByID);
+		.get('/details/movie/credits?id=450465')
+		.expect(isGlassByID);
 		//expect the movie glass
     });
 	
 	test('GET /details/person succeeds', () => {
 		return request(app)
-	    .get('/details/person?id=48')
-	    .expect(200);
+		.get('/details/person?id=48')
+		.expect(200);
 		//expect sean bean
     });
 	
 	test('GET /details/person returns text', () => {
 		return request(app)
-	    .get('/details/person?id=48')
-	    .expect('Content-type', "text/html; charset=utf-8");
+		.get('/details/person?id=48')
+		.expect('Content-type', "text/html; charset=utf-8");
 		//expect sean bean
     });
 	
 	test('GET /details/person includes name', () => {
 		return request(app)
-	    .get('/details/person?id=48')
-	    .expect(isSeanBean);
+		.get('/details/person?id=48')
+		.expect(isSeanBean);
 		//expect sean bean
     });
 	
 	test('GET /details/person/movie/credits succeeds', () => {
 		return request(app)
-	    .get('/details/person/movie/credits?id=48')
-	    .expect(200);
+		.get('/details/person/movie/credits?id=48')
+		.expect(200);
 		//expect sean bean
     });
 	
 	test('GET /details/person/movie/credits returns text', () => {
 		return request(app)
-	    .get('/details/person/movie/credits?id=48')
-	    .expect('Content-type', "text/html; charset=utf-8");
+		.get('/details/person/movie/credits?id=48')
+		.expect('Content-type', "text/html; charset=utf-8");
 		//expect sean bean
     });
 	
 	test('GET /details/person/movie/credits returns consistent id', () => {
 		return request(app)
-	    .get('/details/person/movie/credits?id=48')
-	    .expect(isSeanBeanByID);
+		.get('/details/person/movie/credits?id=48')
+		.expect(isSeanBeanByID);
 		//expect sean bean
     });
 	
@@ -245,15 +245,15 @@ describe('Test movie service', () => {
 
 	test('GET /person/find/movie succeeds', () => {
 		return request(app)
-	    .get('/person/find/movie?id=48')
-	    .expect(200);
+		.get('/person/find/movie?id=48')
+		.expect(200);
 		//expect sean bean
     });
 	
 	test('GET /person/find/movie returns text', () => {
 		return request(app)
-	    .get('/person/find/movie?id=48')
-	    .expect('Content-type', "text/html; charset=utf-8");
+		.get('/person/find/movie?id=48')
+		.expect('Content-type', "text/html; charset=utf-8");
 		//expect sean bean
     });
 	
@@ -272,7 +272,7 @@ describe('Test movie service', () => {
 	test('GET /discover/top_rated succeeds', () =>{
 		return request(app)
 		.get('/discover/top_rated')
-		.expect(200);
+			.expect(200);
 	});
 	
 	test('GET /discover/top_rated returns text', () =>{
@@ -333,21 +333,21 @@ describe('Test movie service', () => {
 	//POST tests
 	test('POST /movie/rate needs active session', () => {
         return request(app)
-	    .post('/movie/rate')
-	    .expect(403);
+		.post('/movie/rate')
+		.expect(403);
     });
 	
 	test('POST /movie/favourite needs active session', () => {
         return request(app)
-	    .post('/movie/favourite')
-	    .expect(403);
+		.post('/movie/favourite')
+		.expect(403);
     });
 	
 	//DELETE tests
 	test('DELETE /movie/rate/delete needs active session', () => {
         return request(app)
-	    .delete('/movie/rate/delete')
-	    .expect(403);
+		.delete('/movie/rate/delete')
+		.expect(403);
     });
 	
 	//Account GET tests
@@ -424,26 +424,27 @@ describe('Test authentication service', () => {
 // if test('GET /authentication/session/new redirect succeeds' fails then these tests will also fail
 describe('Test account services',() => {
 	test('POST /movie/rate succeeds', () => {
-		const params = 'value=8&id=450465'
+		const params = 'value=8&id=450465';
         return request(app)
-	    .post('/movie/rate')
+		.post('/movie/rate')
 		.send(params)
-	    .expect(200);
+		.expect(200);
     });
 	
 	test('POST /movie/favourite succeeds', () => {
-		const params = 'id=450465&favourite=true'
+		const params = 'id=450465&favourite=true';
         return request(app)
-	    .post('/movie/favourite')
-	    .expect(200);
+		.post('/movie/favourite')
+		.send(params)
+		.expect(200);
     });
 	
 	test('DELETE /movie/rate/delete succeeds', () => {
-		params = 'id=450465'
+		const params = 'id=450465';
         return request(app)
-	    .delete('/movie/rate/delete')
+		.delete('/movie/rate/delete')
 		.send(params)
-	    .expect(200);
+		.expect(200);
     });
 	
 	test('GET /account/favourite succeeds', () =>{

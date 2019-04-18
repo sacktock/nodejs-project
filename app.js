@@ -12,19 +12,18 @@ app.use(express.static('client'));
 const api_key = 'api_key=f5a15381e863efaf6551e766d6b1088f'
 var getAccessToken;
 var page;
-var genres;
 var session_id;
 const guest = false;
-
+/* eslint-disable no-console */
 /////////////////////////////////
 // function to make a GET api request with a callback 
 function api_request(getAccessToken,callback){
 	request.get(getAccessToken, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-            result = JSON.stringify(JSON.parse(body));          
+            var result = JSON.stringify(JSON.parse(body));          
             return callback(false,result);
         } else {            
-            return callback(error,null);;
+            return callback(error,null);
         }
 	});
 		
@@ -369,7 +368,7 @@ function post_request(URL,body, callback){
 		body: body
 		}, function(error,response,body){
 			if (!error && response.statusCode == 200) {
-				result = JSON.stringify(JSON.parse(body)); 
+				var result = JSON.stringify(JSON.parse(body)); 
 				return callback(false,result);
 			} else {     
 				result = JSON.stringify(JSON.parse(body)); 			
@@ -435,7 +434,7 @@ app.post('/movie/rate', function(req,resp){
 				return resp.send(err);
 			}
 			console.log('Success');
-			resp.status(200).send('ok');
+			resp.send(data);
 		});
 	} else {
 		console.log('403 Forbidden');
@@ -446,7 +445,7 @@ app.post('/movie/rate', function(req,resp){
 // function to make a DELETE api request with callback
 function delete_request(URL, callback){
 	request.delete(URL,
-		function(error,response,body){
+		function(error,response){
 			if (!error && response.statusCode == 200) {
 				return callback(false,response);
 			} else {            
@@ -472,7 +471,7 @@ app.delete('/movie/rate/delete', function(req,resp){
 				return resp.send(err);
 			}
 			console.log('Success');
-			resp.status(200).send('ok');
+			resp.send(data);
 		});
 	} else {
 		console.log('403 Forbidden');
@@ -505,7 +504,7 @@ app.post('/movie/favourite', function(req,resp){
 				return resp.send(err);
 			}
 			console.log('Success');
-			resp.status(200).send('ok');
+			resp.send(data);
 		});
 	} else {
 		console.log('403 Forbidden');
@@ -576,9 +575,9 @@ app.get('/account/rated',function(req,resp){
 
 app.get('/authentication/token/remote', function(req,resp){
 	var request_token = req.query.request_token;
-	myAccessToken = 'https://api.themoviedb.org/3/authentication/token/validate_with_login?'+
+	var myAccessToken = 'https://api.themoviedb.org/3/authentication/token/validate_with_login?'+
 	api_key;
-	body = '{'+
+	var body = '{'+
 			'"username": "sacktock",'+
 			'"password": "agdego44",'+
 			'"request_token": "'+ request_token+'"'+

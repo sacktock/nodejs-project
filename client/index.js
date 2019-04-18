@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var searchStr = '/movie?movie=';
 var movie_id;
 function topF() {
@@ -19,14 +20,12 @@ document.addEventListener("DOMContentLoaded", function(){
 	var find = document.getElementById('find');
 	//
 	var header = document.getElementById('header');
-	var number = document.getElementById('number');
-	var content = document.getElementById('content');
+
 	var queryBox = document.getElementById('query');
 	
 	var previous = document.getElementById('previous');
 	var next = document.getElementById('next');
 	
-	var rate = document.getElementById('rate');
 	var favourite = document.getElementById('favourite');
 	
 	var authenticate = document.getElementById('authenticate');
@@ -35,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	var ratedBy = document.getElementById('rated');
 	var favouriteY = document.getElementById('favouriteY');
 	
-	trending.addEventListener('click', async function(event){
+	trending.addEventListener('click', async function(){
 		resetAll();
 		trending.className += ' w3-white';
 		header.innerHTML = 'Trending';
@@ -45,15 +44,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/trending');
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			alert(e);
 		}
 	});
 	
-	actors.addEventListener('click', async function(event){
+	actors.addEventListener('click', async function(){
 		resetAll();
 		actors.className += ' w3-white';
 		header.innerHTML = 'People';
@@ -63,15 +62,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/person/popular');
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			alert(e);
 		}
 	});
 	
-	genres.addEventListener('click', async function(event){
+	genres.addEventListener('click', async function(){
 		resetAll();
 		genres.className += ' w3-white';
 		header.innerHTML = 'Genres';
@@ -86,8 +85,8 @@ document.addEventListener("DOMContentLoaded", function(){
 				let response = await fetch('http://127.0.0.1:8090/genres');
 				let body = await response.text();
 				console.log('api fetch success...');
-				data = JSON.parse(body);
-				genresDict = data;
+				var data = JSON.parse(body);
+				var genresDict = data;
 				x.innerHTML = '';
 				for (i in genresDict.genres){
 					x.innerHTML += '<a id = "'+genresDict.genres[i].id+'"class="w3-bar-item w3-button">'+genresDict.genres[i].name+'</a>';
@@ -96,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(){
 				for (var i = 0; i < children.length; i++){
 					children[i].addEventListener('click',async function(event){
 						resetGenre();
-						target = event.target;
+						var target = event.target;
 						searchStr = '/movie?movie=';
 						target.className += ' w3-light-grey';
 						header.innerHTML = 'Genres - '+ target.innerHTML;
@@ -104,9 +103,9 @@ document.addEventListener("DOMContentLoaded", function(){
 						try{
 							let response = await fetch('http://127.0.0.1:8090/discover/genre?genre='+String(target.id));
 							let body = await response.text();
-							data = JSON.parse(body);
+							var data = JSON.parse(body);
 							console.log('api fetch success...');
-							display_query(data);
+							display_query(data); //eslint-disable-line
 						} catch(e) {
 							alert(e);
 						}
@@ -119,7 +118,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	function resetGenre(){
-		var x = document.getElementById("genreAcc");
 		var children = document.getElementById("genreAcc").children;
 		for (var i = 0; i < children.length; i++){
 			children[i].classList.remove('w3-light-grey');
@@ -128,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	function resetYou(){
-		var x = document.getElementById("youAcc");
 		var children = document.getElementById("youAcc").children;
 		for (var i = 0; i < children.length; i++){
 			children[i].classList.remove('w3-light-grey');
@@ -193,22 +190,22 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	function genreAccFunc() {
-	  var x = document.getElementById("genreAcc");
-	  if (x.className.indexOf("w3-show") == -1) {
-		genres.innerHTML = 'Genres <i class="fa fa-caret-down"></i>';
-		x.className += " w3-show";
-	  } else {
-		x.className = x.className.replace(" w3-show", "");
+		var x = document.getElementById("genreAcc");
+		if (x.className.indexOf("w3-show") == -1) {
+			genres.innerHTML = 'Genres <i class="fa fa-caret-down"></i>';
+			x.className += " w3-show";
+		} else {
+			x.className = x.className.replace(" w3-show", "");
 		}
 	}
 	
 	function disAccFunc() {
-	  var x = document.getElementById("disAcc");
-	  if (x.className.indexOf("w3-show") == -1) {
-		discover.innerHTML = 'Discover <i class="fa fa-caret-down"></i>';
-		x.className += " w3-show";
-	  } else {
-		x.className = x.className.replace(" w3-show", "");
+		var x = document.getElementById("disAcc");
+		if (x.className.indexOf("w3-show") == -1) {
+			discover.innerHTML = 'Discover <i class="fa fa-caret-down"></i>';
+			x.className += " w3-show";
+		} else {
+			x.className = x.className.replace(" w3-show", "");
 		}
 	}
 	
@@ -222,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	
-	top_rated.addEventListener('click', async function(event){
+	top_rated.addEventListener('click', async function(){
 		resetDis();
 		top_rated.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Top Rated';
@@ -232,15 +229,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/top_rated');
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			alert(e);
 		}
 	});
 	
-	popular.addEventListener('click', async function(event){
+	popular.addEventListener('click', async function(){
 		resetDis();
 		popular.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Popular';
@@ -250,15 +247,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/popular');
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			alert(e);
 		}
 	});
 	
-	now_playing.addEventListener('click', async function(event){
+	now_playing.addEventListener('click', async function(){
 		resetDis();
 		now_playing.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Now Playing';
@@ -268,16 +265,16 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/now_playing');
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			alert(e);
 		}
 	});
 	
 	
-	upcoming.addEventListener('click', async function(event){
+	upcoming.addEventListener('click', async function(){
 		resetDis();
 		upcoming.className += ' w3-light-grey';
 		header.innerHTML = 'Discover - Upcoming';
@@ -287,15 +284,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/discover/upcoming');
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			alert(e);
 		}
 	});
 	
-	ratedBy.addEventListener('click', async function(event){
+	ratedBy.addEventListener('click', async function(){
 		resetYou();
 		ratedBy.className += ' w3-light-grey';
 		header.innerHTML = 'You - Rated';
@@ -305,18 +302,18 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/account/rated');
 			if(!response.ok){
-			  alert('403 forbidden error: no active session');
+				alert('403 forbidden error: no active session');
 			}
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			console.log(e);
 		}
 	});
 	
-	favouriteY.addEventListener('click', async function(event){
+	favouriteY.addEventListener('click', async function(){
 		resetYou();
 		favouriteY.className += ' w3-light-grey';
 		header.innerHTML = 'You - Favourite';
@@ -326,12 +323,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/account/favourite');
 			if(!response.ok){
-			  alert('403 forbidden error: no active session');
+				alert('403 forbidden error: no active session');
 			}
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			console.log(e);
 		}
@@ -347,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	
-	authenticate.addEventListener('click', async function(event){
+	authenticate.addEventListener('click', async function(){
 		var data;
 		try{
 			let response = await fetch('http://127.0.0.1:8090/authentication/token/new');
@@ -368,14 +365,14 @@ document.addEventListener("DOMContentLoaded", function(){
 	function setup_rate(){
 		var x = document.getElementById('drop_down_rate');
 		x.innerHTML ='<a class="w3-button w3-black w3-tiny" id="rating"><b>10</b></a>';
-		for (i=0;i<10;i++){
+		for (var i=0;i<10;i++){
 			x.innerHTML += '<a class="w3-button w3-black w3-small fa fa-star checked" id="rate'+String(i+1)+'" onmouseover="hover_rate(event)" onclick="rate_movie(event)"></a>';
 		}
 		x.innerHTML+='<a class="w3-button w3-red w3-small fa fa-ban" id="delete" onclick="delete_rating()"></a>';
 		
-	};
+	}
 	
-	favourite.addEventListener('click', async function(event){
+	favourite.addEventListener('click', async function(){
 		//toggle favourite
 		var id= movie_id;
 		var fav;
@@ -385,56 +382,56 @@ document.addEventListener("DOMContentLoaded", function(){
 		
 		try{
 			let response = await fetch('http://127.0.01:8090/movie/favourite',
-									   {
-										 method: "POST",
-										 headers: {
-										   "Content-Type": "application/x-www-form-urlencoded"
-										 },
-										 body: "id=" + id+'&favourite='+fav
-									   });
+										{
+											method: "POST",
+											headers: {
+												"Content-Type": "application/x-www-form-urlencoded"
+											},
+											body: "id=" + id+'&favourite='+fav
+										});
 			if(!response.ok){
-			  alert('403 forbidden error: no active session');
+				alert('403 forbidden error: no active session');
 			} else {
 				if (fav){
-				favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
-				favourite.className = 'w3-button w3-red w3-right'; 
-				console.log('film marked as favourite');
-			  } else {
-				favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite';
-				favourite.className = 'w3-button w3-black w3-right';
-				console.log('film unmarked as favourite');
-			  }
+					favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Favourite';
+					favourite.className = 'w3-button w3-red w3-right'; 
+					console.log('film marked as favourite');
+				} else {
+					favourite.innerHTML = '<i class="fa fa-thumbs-up"></i> Mark as Favourite';
+					favourite.className = 'w3-button w3-black w3-right';
+					console.log('film unmarked as favourite');
+				}
 			}
 		} catch (e) {
 			alert (e);
 		}
 	});
 
-	search.addEventListener('click', async function(event){
+	search.addEventListener('click', async function(){
 		var query = queryBox.value;
 		header.innerHTML = 'Search Results...';
 		
 		try{
 			let response = await fetch('http://127.0.0.1:8090/search'+searchStr+query);
 			let body = await response.text();
-			data = JSON.parse(body);
+			var data = JSON.parse(body);
 			console.log('api fetch success...');
-			display_query(data);
+			display_query(data); //eslint-disable-line
 		} catch(e) {
 			alert(e);
 		}
 	});
 	
-	next.addEventListener('click',async function(event){
+	next.addEventListener('click',async function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=1');
 			if (!response.ok){
 				console.log('404 not found error: page out of bounds');
 			} else {
 				let body = await response.text();
-				data = JSON.parse(body);
+				var data = JSON.parse(body);
 				console.log('api fetch success...');
-				display_query(data);
+				display_query(data); //eslint-disable-line
 				topF();
 			}
 		} catch(e) {
@@ -442,16 +439,16 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	});
 	
-	previous.addEventListener('click',async function(event){
+	previous.addEventListener('click',async function(){
 		try{
 			let response = await fetch('http://127.0.0.1:8090/page?next=0');
 			if (!response.ok){
 				console.log('404 not found error: page out of bounds');
 			} else {
 				let body = await response.text();
-				data = JSON.parse(body);
+				var data = JSON.parse(body);
 				console.log('api fetch success...');
-				display_query(data);
+				display_query(data); //eslint-disable-line
 				topF();
 			}
 		} catch(e) {
@@ -459,17 +456,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	});
 	
-	async function authentication(event){
-		try{
-			let response = await fetch('http://127.0.0.1:8090/authentication');
-			let body = await response.text();
-			console.log('api fetch success...');
-			data = JSON.parse(body);
-			token = data.request_token;
-		} catch(e) {
-			alert(e);
-		}
-	}
 	setup_genres();
 	setup_rate();
 	trending.click();
