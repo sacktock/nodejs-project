@@ -8,7 +8,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //required to access static html
 app.use(express.static('client'));
 //require some pre-defined JSON data
-var recipes = require('./potato_recipes.json');
 //api key for the api.moviedb.org
 const api_key = 'api_key=f5a15381e863efaf6551e766d6b1088f'
 var getAccessToken;
