@@ -6,10 +6,15 @@ Server Side Documentation
 
 project by clvp22, Durham University.
 
+Overview
+--------
+
+My project is a film review website that allows you to browse through a variety of films and people (cast/crew) provided by an external api. You can view the details of films, search for films, search for people, rate films, favourite films and discover films, based on genre for example.
+
 Prelims
 -------
 
-This webpage uses an external web api TMDb, so to make the most out of this webpage please create an account at https://www.themoviedb.org/account/signup 
+This webpage uses the external api TMDb, so to make the most out of this webpage please create an account at https://www.themoviedb.org/account/signup 
 or use my dummy account {username: dummy49, password: password49}, but bear in mind other people may have used it before. You can also access this link on the webpage itself through the create account button.
 This is important as it will help demonstrate the use of my POST requests.
 
@@ -27,7 +32,7 @@ Access the webpage at the local address: http://127.0.0.1:8090
 Testing
 -------
 
-- There is one test file 'app.test.js' to run these tests simply type 'npm test' into the command line. Bear in mind that some of the tests may fail because of the api web service, and if the 'GET /authentication/session/new redirect succeeds' test fails then most of the tests in the 'Test account services' section will also fail because the authentication has not worked. 
+- There is one test file 'app.test.js' to run these tests simply type 'npm test' into the command line (this will run jest --coverage). Bear in mind that some of the tests may fail because of the external api service, and if the 'GET /authentication/session/new redirect succeeds' test fails then most of the tests in the 'Test account services' section will also fail because the authentication has not worked. 
 - To test with eslint type 'npm run lint' into the command line, this is a directory wide test and will test the client side javascript aswell. If you don't see any output this means eslint has found no errors.  
 
 Console
