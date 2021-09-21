@@ -54,18 +54,23 @@ Screenshots
 -----------------
 
 **Home Page**
+
 ![Image](./images/screenshot1.png)
 
 **Trending People**
+
 ![Image](./images/screenshot2.png)
 
 **Film Overview**
+
 ![Image](./images/screenshot3.png)
 
 **Film Overview (additional)**
+
 ![Image](./images/screenshot4.png)
 
 **Person Overview**
+
 ![Image](./images/screenshot5.png)
 
 License
