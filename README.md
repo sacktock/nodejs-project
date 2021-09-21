@@ -50,6 +50,19 @@ Using the webpage
 
 The rest of the information about using the actual website can be found in the client side README.md ... client/README.md
 
+Screenshots
+-----------------
+
+![Image](./images/screenshot1.png)
+
+![Image](./images/screenshot2.png)
+
+![Image](./images/screenshot3.png)
+
+![Image](./images/screenshot4.png)
+
+![Image](./images/screenshot5.png)
+
 License
 -------
 
